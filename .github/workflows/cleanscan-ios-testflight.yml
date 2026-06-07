@@ -1,0 +1,62 @@
+name: CleanScan TestFlight
+
+on:
+  workflow_dispatch:
+
+jobs:
+  upload:
+    name: Archive and Upload to TestFlight
+    runs-on: macos-15
+    timeout-minutes: 45
+
+    defaults:
+      run:
+        working-directory: apps/cleanscan-ios
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate required secrets
+        env:
+          DEVELOPMENT_TEAM: ${{ secrets.CLEANSCAN_DEVELOPMENT_TEAM }}
+          PRODUCT_BUNDLE_IDENTIFIER: ${{ secrets.CLEANSCAN_BUNDLE_ID }}
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
+          APP_STORE_CONNECT_API_PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
+        run: |
+          test -n "$DEVELOPMENT_TEAM"
+          test -n "$PRODUCT_BUNDLE_IDENTIFIER"
+          test -n "$APP_STORE_CONNECT_API_KEY_ID"
+          test -n "$APP_STORE_CONNECT_API_ISSUER_ID"
+          test -n "$APP_STORE_CONNECT_API_PRIVATE_KEY"
+
+      - name: Write App Store Connect API key
+        env:
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          APP_STORE_CONNECT_API_PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/appstore"
+          printf '%s' "$APP_STORE_CONNECT_API_PRIVATE_KEY" > "$RUNNER_TEMP/appstore/AuthKey_${APP_STORE_CONNECT_API_KEY_ID}.p8"
+          chmod 600 "$RUNNER_TEMP/appstore/AuthKey_${APP_STORE_CONNECT_API_KEY_ID}.p8"
+
+      - name: Archive and export IPA
+        env:
+          DEVELOPMENT_TEAM: ${{ secrets.CLEANSCAN_DEVELOPMENT_TEAM }}
+          PRODUCT_BUNDLE_IDENTIFIER: ${{ secrets.CLEANSCAN_BUNDLE_ID }}
+        run: bash scripts/archive-release.sh
+
+      - name: Upload to TestFlight
+        env:
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
+          APP_STORE_CONNECT_API_PRIVATE_KEY_PATH: ${{ runner.temp }}/appstore/AuthKey_${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}.p8
+        run: bash scripts/upload-testflight.sh build/release/export/CleanScan.ipa
+
+      - name: Upload IPA artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cleanscan-ipa
+          path: apps/cleanscan-ios/build/release/export/*.ipa
+          if-no-files-found: ignore

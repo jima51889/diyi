@@ -1,0 +1,1160 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background: #0d1017;
+  color: #f6efe2;
+  font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  border: 0;
+}
+
+.text-link {
+  width: auto;
+  min-height: 34px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(246, 239, 226, 0.1);
+  color: #f6c56e;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.inline-link {
+  padding: 0;
+  background: transparent;
+  color: #f6c56e;
+  font-size: inherit;
+  font-weight: 900;
+}
+
+.city-button {
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(246, 197, 110, 0.16);
+  color: #f6c56e;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.app-shell {
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(16, 21, 31, 0.2), rgba(16, 21, 31, 0.95)),
+    url("/src/assets/chongqing-letter-cover.jpg") center/cover fixed;
+  display: flex;
+  justify-content: center;
+}
+
+.phone-app {
+  width: min(100vw, 430px);
+  min-height: 100vh;
+  position: relative;
+  background: #10151f;
+  overflow: hidden;
+  box-shadow: 0 0 80px rgba(0, 0, 0, 0.45);
+}
+
+.screen {
+  min-height: 100vh;
+  padding: 18px 18px 96px;
+  overflow-x: hidden;
+}
+
+.home-screen {
+  background: linear-gradient(180deg, rgba(16, 21, 31, 0.1), #10151f 48%);
+}
+
+.hero {
+  min-height: 330px;
+  margin: -18px -18px 22px;
+  padding: max(22px, env(safe-area-inset-top)) 18px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.16), rgba(16, 21, 31, 0.95)),
+    url("/src/assets/chongqing-letter-cover.jpg") center/cover;
+}
+
+.auth-hero {
+  min-height: 310px;
+  margin: -18px -18px 18px;
+  padding: max(32px, env(safe-area-inset-top)) 18px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background:
+    linear-gradient(180deg, rgba(16, 21, 31, 0.08), rgba(16, 21, 31, 0.98)),
+    url("/src/assets/chongqing-letter-cover.jpg") center/cover;
+}
+
+.auth-hero span,
+.purchase-head span {
+  color: #f6c56e;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.auth-hero h1 {
+  margin: 10px 0;
+  font-size: 38px;
+  line-height: 1.04;
+}
+
+.auth-hero p,
+.auth-note span,
+.purchase-note span {
+  color: rgba(246, 239, 226, 0.7);
+  line-height: 1.65;
+}
+
+.auth-card,
+.auth-note,
+.order-panel,
+.purchase-note,
+.purchase-card {
+  border: 1px solid rgba(246, 239, 226, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.auth-card {
+  display: grid;
+  gap: 12px;
+}
+
+.auth-card label span {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(246, 239, 226, 0.68);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.auth-card input {
+  width: 100%;
+  height: 52px;
+  border: 1px solid rgba(246, 197, 110, 0.28);
+  border-radius: 8px;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f6efe2;
+  outline: none;
+}
+
+.auth-note,
+.purchase-note {
+  margin-top: 12px;
+}
+
+.auth-note strong,
+.purchase-note strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.platform-entry-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.mini-entry {
+  min-width: 0;
+  min-height: 76px;
+  padding: 12px;
+  border: 1px solid rgba(246, 239, 226, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #f6efe2;
+  text-align: left;
+}
+
+.mini-entry strong,
+.mini-entry span {
+  display: block;
+}
+
+.mini-entry strong {
+  color: #f6c56e;
+  font-size: 15px;
+}
+
+.mini-entry span {
+  margin-top: 7px;
+  color: rgba(246, 239, 226, 0.62);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.topline,
+.chips,
+.meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.topline {
+  justify-content: space-between;
+  color: rgba(246, 239, 226, 0.85);
+  font-size: 13px;
+}
+
+.topline span,
+.chips span,
+.badge,
+.meta-row span {
+  border: 1px solid rgba(246, 197, 110, 0.32);
+  background: rgba(16, 21, 31, 0.54);
+  color: #f6c56e;
+  border-radius: 999px;
+  padding: 6px 10px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.hero h1 {
+  margin: 0 0 10px;
+  font-size: 48px;
+  line-height: 0.96;
+  letter-spacing: 0;
+}
+
+.hero p,
+.compact-hero p,
+.quest-card p,
+.panel p {
+  color: rgba(246, 239, 226, 0.78);
+  line-height: 1.68;
+}
+
+.hero p {
+  max-width: 320px;
+  margin: 0;
+  font-size: 16px;
+}
+
+.section-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 18px 0 12px;
+}
+
+.section-title span {
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.section-title small {
+  color: rgba(246, 197, 110, 0.78);
+}
+
+.quest-card,
+.event-card,
+.booking-banner,
+.action-ratio,
+.panel,
+.timeline,
+.quick-grid > div,
+.next-card,
+.share-card,
+.map-card,
+.challenge-card,
+.role-card,
+.event-complete-card,
+.booking-status,
+.slot,
+.certificate,
+.record,
+.purchase-card,
+.order-panel,
+.purchase-note,
+.auth-card,
+.auth-note {
+  border: 1px solid rgba(246, 239, 226, 0.1);
+  background: rgba(255, 255, 255, 0.055);
+  backdrop-filter: blur(16px);
+  border-radius: 8px;
+}
+
+.purchase-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding-top: max(0px, env(safe-area-inset-top));
+}
+
+.page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding-top: max(0px, env(safe-area-inset-top));
+}
+
+.page-head span {
+  color: #f6c56e;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.city-hero,
+.creator-hero {
+  min-height: 230px;
+}
+
+.city-list,
+.creator-flow {
+  display: grid;
+  gap: 10px;
+}
+
+.city-card,
+.flow-item {
+  width: 100%;
+  border: 1px solid rgba(246, 239, 226, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #f6efe2;
+}
+
+.city-card {
+  min-height: 82px;
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  text-align: left;
+}
+
+.city-card.active {
+  border-color: rgba(246, 197, 110, 0.54);
+  background: rgba(246, 197, 110, 0.12);
+}
+
+.city-card strong,
+.city-card span {
+  display: block;
+}
+
+.city-card strong {
+  font-size: 19px;
+}
+
+.city-card span {
+  margin-top: 6px;
+  color: rgba(246, 239, 226, 0.62);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.city-card em {
+  color: #f6c56e;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.creator-flow {
+  margin: 12px 0;
+}
+
+.flow-item {
+  min-height: 54px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.flow-item i {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #f6c56e;
+  color: #10151f;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.flow-item span {
+  font-weight: 800;
+}
+
+.purchase-card {
+  margin: 14px 0;
+  background:
+    linear-gradient(145deg, rgba(246, 197, 110, 0.14), rgba(87, 199, 182, 0.08)),
+    rgba(255, 255, 255, 0.06);
+}
+
+.purchase-card h1 {
+  margin: 14px 0 8px;
+  font-size: 32px;
+  line-height: 1.08;
+}
+
+.purchase-card p {
+  color: rgba(246, 239, 226, 0.72);
+  line-height: 1.65;
+}
+
+.price-line,
+.order-panel div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.price-line {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(246, 239, 226, 0.12);
+}
+
+.price-line span,
+.order-panel span {
+  color: rgba(246, 239, 226, 0.62);
+}
+
+.price-line strong {
+  color: #f6c56e;
+  font-size: 30px;
+}
+
+.order-panel {
+  display: grid;
+  gap: 13px;
+}
+
+.order-panel strong {
+  text-align: right;
+}
+
+.quest-card {
+  display: block;
+  width: 100%;
+  padding: 18px;
+  text-align: left;
+  color: inherit;
+}
+
+.event-card {
+  display: block;
+  width: 100%;
+  min-height: 210px;
+  padding: 18px;
+  text-align: left;
+  color: inherit;
+  background:
+    linear-gradient(145deg, rgba(87, 199, 182, 0.16), rgba(246, 197, 110, 0.11)),
+    rgba(255, 255, 255, 0.055);
+}
+
+.event-card h2 {
+  margin: 14px 0 8px;
+  font-size: 25px;
+  line-height: 1.18;
+}
+
+.event-card p {
+  margin: 0;
+  color: rgba(246, 239, 226, 0.78);
+  line-height: 1.65;
+}
+
+.event-card > strong {
+  display: block;
+  margin-top: 16px;
+  color: #f6c56e;
+  font-size: 16px;
+}
+
+.event-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.event-meta span {
+  border: 1px solid rgba(87, 199, 182, 0.32);
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: #57c7b6;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.event-hero {
+  min-height: 240px;
+  background:
+    linear-gradient(180deg, rgba(16, 21, 31, 0.12), #10151f),
+    url("/src/assets/chongqing-letter-cover.jpg") center/cover;
+}
+
+.role-card,
+.event-complete-card {
+  padding: 18px;
+  margin: 12px 0;
+}
+
+.role-card {
+  background:
+    linear-gradient(145deg, rgba(246, 197, 110, 0.13), rgba(87, 199, 182, 0.1)),
+    rgba(255, 255, 255, 0.055);
+}
+
+.role-card span,
+.event-complete-card span {
+  color: #f6c56e;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.role-card h2,
+.event-complete-card h2 {
+  margin: 8px 0;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+.role-card p,
+.event-complete-card p {
+  margin: 0;
+  color: rgba(246, 239, 226, 0.72);
+  line-height: 1.6;
+}
+
+.event-complete-card {
+  border-color: rgba(87, 199, 182, 0.28);
+  background: rgba(87, 199, 182, 0.1);
+}
+
+.booking-banner {
+  width: 100%;
+  min-height: 76px;
+  margin: 12px 0;
+  padding: 14px 16px;
+  display: grid;
+  gap: 7px;
+  text-align: left;
+  color: inherit;
+  background:
+    linear-gradient(135deg, rgba(246, 197, 110, 0.16), rgba(87, 199, 182, 0.12)),
+    rgba(255, 255, 255, 0.055);
+}
+
+.booking-banner span,
+.booking-status span {
+  color: rgba(246, 239, 226, 0.62);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.booking-banner strong,
+.booking-status strong {
+  color: #f6c56e;
+  font-size: 18px;
+}
+
+.booking-hero {
+  min-height: 250px;
+}
+
+.booking-status {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.action-ratio {
+  padding: 16px;
+  margin: 12px 0;
+  background:
+    linear-gradient(145deg, rgba(246, 197, 110, 0.14), rgba(87, 199, 182, 0.12)),
+    rgba(255, 255, 255, 0.055);
+}
+
+.action-ratio > span {
+  color: #f6c56e;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.action-ratio h2 {
+  margin: 8px 0 14px;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.ratio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ratio-grid div {
+  min-height: 68px;
+  padding: 12px;
+  border: 1px solid rgba(246, 239, 226, 0.1);
+  border-radius: 8px;
+  background: rgba(16, 21, 31, 0.38);
+}
+
+.ratio-grid strong,
+.ratio-grid small {
+  display: block;
+}
+
+.ratio-grid strong {
+  color: #f6c56e;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.ratio-grid small {
+  margin-top: 8px;
+  color: rgba(246, 239, 226, 0.68);
+  font-weight: 800;
+}
+
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 10px 0 14px;
+}
+
+.slot {
+  min-height: 54px;
+  padding: 0 10px;
+  color: #f6efe2;
+  background: rgba(255, 255, 255, 0.055);
+  font-weight: 800;
+}
+
+.slot.active {
+  border-color: rgba(246, 197, 110, 0.58);
+  background: rgba(246, 197, 110, 0.14);
+  color: #f6c56e;
+}
+
+.quest-card h2 {
+  margin: 14px 0 8px;
+  font-size: 23px;
+  line-height: 1.22;
+}
+
+.quest-card p {
+  margin: 0 0 16px;
+  font-size: 14px;
+}
+
+.quick-grid,
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.quick-grid {
+  margin: 14px 0;
+}
+
+.quick-grid > div,
+.stats > div {
+  min-width: 0;
+  padding: 14px 10px;
+  text-align: center;
+}
+
+.quick-grid strong,
+.stats strong {
+  display: block;
+  color: #f6c56e;
+  font-size: 20px;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.quick-grid span,
+.stats span {
+  display: block;
+  margin-top: 5px;
+  color: rgba(246, 239, 226, 0.64);
+  font-size: 12px;
+}
+
+.primary-action,
+.secondary-action {
+  width: 100%;
+  min-height: 52px;
+  border-radius: 8px;
+  color: #10151f;
+  background: linear-gradient(135deg, #f6c56e, #e68b47);
+  font-weight: 900;
+  box-shadow: 0 16px 34px rgba(230, 139, 71, 0.24);
+}
+
+.primary-action:disabled {
+  opacity: 0.72;
+}
+
+.secondary-action {
+  background: rgba(246, 239, 226, 0.12);
+  color: #f6efe2;
+  box-shadow: none;
+}
+
+.sticky {
+  position: sticky;
+  bottom: 84px;
+  margin-top: 18px;
+}
+
+.compact-hero {
+  min-height: 210px;
+  margin: -18px -18px 18px;
+  padding: max(24px, env(safe-area-inset-top)) 18px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background:
+    linear-gradient(180deg, rgba(16, 21, 31, 0.25), #10151f),
+    url("/src/assets/chongqing-letter-cover.jpg") center/cover;
+}
+
+.compact-hero span,
+.mission-head span,
+.panel h2,
+.next-card span,
+.share-card span,
+.map-card span {
+  color: #f6c56e;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.compact-hero h1,
+.mission-head h1,
+.complete h1 {
+  margin: 8px 0;
+  font-size: 30px;
+  line-height: 1.08;
+}
+
+.stats {
+  margin-bottom: 14px;
+}
+
+.stats > div {
+  border-radius: 8px;
+  background: rgba(246, 239, 226, 0.08);
+}
+
+.panel {
+  padding: 16px;
+  margin: 12px 0;
+}
+
+.panel h2 {
+  margin: 0 0 8px;
+}
+
+.panel p {
+  margin: 0;
+}
+
+.objective {
+  color: #f6efe2 !important;
+  font-weight: 800;
+}
+
+.panel small {
+  display: block;
+  margin-top: 10px;
+  color: rgba(246, 239, 226, 0.56);
+  line-height: 1.55;
+}
+
+.timeline {
+  padding: 6px 0;
+  overflow: hidden;
+}
+
+.timeline-item {
+  min-height: 68px;
+  padding: 12px 12px;
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  border-bottom: 1px solid rgba(246, 239, 226, 0.08);
+}
+
+.timeline-item:last-child {
+  border-bottom: 0;
+}
+
+.timeline-item i {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #f6c56e;
+  color: #10151f;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.timeline-item strong,
+.timeline-item span {
+  display: block;
+}
+
+.timeline-item strong {
+  font-size: 15px;
+}
+
+.timeline-item span {
+  margin-top: 5px;
+  color: rgba(246, 239, 226, 0.6);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.timeline-item em {
+  color: rgba(246, 197, 110, 0.76);
+  font-size: 11px;
+  font-style: normal;
+}
+
+.mission-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: max(4px, env(safe-area-inset-top));
+}
+
+.mission-head h1 {
+  font-size: 26px;
+}
+
+.mission-head b {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(246, 197, 110, 0.14);
+  color: #f6c56e;
+}
+
+.progress {
+  height: 8px;
+  margin: 12px 0 16px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(246, 239, 226, 0.12);
+}
+
+.progress i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #f6c56e, #57c7b6);
+}
+
+.signal {
+  border-color: rgba(87, 199, 182, 0.25);
+}
+
+.map-card,
+.challenge-card,
+.next-card,
+.share-card {
+  display: block;
+  width: 100%;
+  margin: 12px 0;
+  padding: 16px;
+  text-align: left;
+  color: inherit;
+}
+
+.map-card {
+  min-height: 128px;
+  background:
+    linear-gradient(135deg, rgba(87, 199, 182, 0.18), rgba(246, 197, 110, 0.1)),
+    rgba(255, 255, 255, 0.055);
+}
+
+.challenge-card {
+  background:
+    linear-gradient(145deg, rgba(230, 139, 71, 0.2), rgba(87, 199, 182, 0.12)),
+    rgba(255, 255, 255, 0.055);
+}
+
+.challenge-card span {
+  color: #f6c56e;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.challenge-card h2 {
+  margin: 8px 0 12px;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.challenge-rule {
+  min-height: 44px;
+  margin: 8px 0;
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.challenge-rule i {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #f6c56e;
+  color: #10151f;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.challenge-rule strong {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.challenge-card small {
+  display: block;
+  margin-top: 12px;
+  color: rgba(246, 239, 226, 0.62);
+  line-height: 1.5;
+}
+
+.map-card strong,
+.next-card strong,
+.share-card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.map-card small {
+  display: block;
+  margin-top: 18px;
+  color: rgba(246, 239, 226, 0.62);
+}
+
+.answer-input {
+  width: 100%;
+  height: 52px;
+  margin: 10px 0;
+  border: 1px solid rgba(246, 197, 110, 0.28);
+  border-radius: 8px;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f6efe2;
+  outline: none;
+}
+
+.complete {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.complete p {
+  color: rgba(246, 239, 226, 0.72);
+  line-height: 1.7;
+}
+
+.certificate {
+  padding: 22px;
+  margin: 14px 0;
+  background:
+    linear-gradient(145deg, rgba(246, 197, 110, 0.14), rgba(87, 199, 182, 0.1)),
+    rgba(255, 255, 255, 0.065);
+}
+
+.certificate > span {
+  color: #f6c56e;
+  font-weight: 900;
+}
+
+.certificate h2 {
+  margin: 12px 0 6px;
+  font-size: 29px;
+}
+
+.certificate p {
+  color: rgba(246, 239, 226, 0.72);
+  line-height: 1.5;
+}
+
+.cert-line {
+  height: 1px;
+  margin: 18px 0;
+  background: rgba(246, 197, 110, 0.34);
+}
+
+.certificate dl {
+  margin: 0;
+}
+
+.certificate dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 9px 0;
+}
+
+.certificate dt,
+.certificate dd {
+  margin: 0;
+}
+
+.certificate dt {
+  color: rgba(246, 239, 226, 0.58);
+}
+
+.certificate dd {
+  text-align: right;
+}
+
+.certificate b {
+  width: 64px;
+  height: 64px;
+  margin: 18px 0 0 auto;
+  display: grid;
+  place-items: center;
+  border: 2px solid #f6c56e;
+  border-radius: 50%;
+  color: #f6c56e;
+  transform: rotate(-12deg);
+}
+
+.record {
+  padding: 14px;
+  margin: 10px 0;
+}
+
+.record strong,
+.record span {
+  display: block;
+}
+
+.record span {
+  margin-top: 5px;
+  color: rgba(246, 239, 226, 0.58);
+  font-size: 12px;
+}
+
+.tabbar {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: min(100vw, 430px);
+  height: calc(70px + env(safe-area-inset-bottom));
+  padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  background: rgba(13, 16, 23, 0.92);
+  border-top: 1px solid rgba(246, 239, 226, 0.1);
+  backdrop-filter: blur(18px);
+  z-index: 20;
+}
+
+.tabbar button {
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(246, 239, 226, 0.58);
+  font-size: 13px;
+}
+
+.tabbar button.active {
+  background: rgba(246, 197, 110, 0.16);
+  color: #f6c56e;
+  font-weight: 900;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(86px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  max-width: min(340px, calc(100vw - 32px));
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(246, 239, 226, 0.95);
+  color: #10151f;
+  font-size: 13px;
+  font-weight: 800;
+  z-index: 30;
+}
+
+.loading,
+.empty {
+  color: rgba(246, 239, 226, 0.72);
+}
+
+@media (min-width: 720px) {
+  .phone-app {
+    margin: 24px 0;
+    min-height: calc(100vh - 48px);
+    border-radius: 22px;
+  }
+
+  .tabbar,
+  .toast {
+    position: absolute;
+  }
+}

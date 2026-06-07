@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CleanScan UI Preview</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #121417;
+        --muted: #6b7280;
+        --line: #d9dde3;
+        --bg: #eef1f4;
+        --panel: #f9fafb;
+        --blue: #1769ff;
+        --green: #18a058;
+        --paper: #ffffff;
+        --soft: #eef6ff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+      }
+
+      main {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 40px 32px 56px;
+      }
+
+      header {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 28px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 34px;
+        font-weight: 760;
+      }
+
+      .subtitle {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 16px;
+      }
+
+      .badge {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 9px 14px;
+        background: rgba(255, 255, 255, 0.7);
+        color: #293241;
+        font-size: 14px;
+        white-space: nowrap;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(230px, 1fr));
+        gap: 24px;
+      }
+
+      .screen-block {
+        min-width: 0;
+      }
+
+      .caption {
+        margin: 0 0 10px;
+        color: #374151;
+        font-size: 15px;
+        font-weight: 650;
+      }
+
+      .phone {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 390 / 844;
+        border: 10px solid #111317;
+        border-radius: 42px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 22px 60px rgba(22, 28, 38, 0.18);
+      }
+
+      .screen {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        background: var(--panel);
+      }
+
+      .status {
+        height: 42px;
+        padding: 13px 22px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .island {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        width: 94px;
+        height: 28px;
+        transform: translateX(-50%);
+        border-radius: 18px;
+        background: #0a0b0d;
+      }
+
+      .nav {
+        height: 62px;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .title {
+        font-size: 30px;
+        line-height: 1;
+        font-weight: 780;
+      }
+
+      .small-title {
+        font-size: 18px;
+        font-weight: 720;
+      }
+
+      .icon-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 18px;
+        display: grid;
+        place-items: center;
+        background: #e8edf4;
+        color: #172033;
+        font-size: 19px;
+      }
+
+      .content {
+        flex: 1;
+        padding: 0 18px 18px;
+        overflow: hidden;
+      }
+
+      .search {
+        height: 42px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 14px;
+        padding: 0 12px;
+        border-radius: 12px;
+        background: #e7ebf0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .doc-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .doc-row {
+        display: grid;
+        grid-template-columns: 48px 1fr auto;
+        align-items: center;
+        gap: 12px;
+        min-height: 72px;
+        padding: 10px 12px;
+        border: 1px solid #edf0f4;
+        border-radius: 14px;
+        background: #fff;
+      }
+
+      .doc-icon {
+        width: 48px;
+        height: 54px;
+        border-radius: 8px;
+        background: linear-gradient(180deg, #ffffff, #dfe8f5);
+        border: 1px solid #cfd8e6;
+        position: relative;
+      }
+
+      .doc-icon::before,
+      .doc-icon::after {
+        content: "";
+        position: absolute;
+        left: 9px;
+        right: 9px;
+        height: 3px;
+        border-radius: 2px;
+        background: #95a3b7;
+      }
+
+      .doc-icon::before {
+        top: 18px;
+      }
+
+      .doc-icon::after {
+        top: 28px;
+      }
+
+      .doc-name {
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .doc-meta {
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .chevron {
+        color: #a0a7b2;
+        font-size: 24px;
+      }
+
+      .scan-bar {
+        padding: 12px 18px 22px;
+        background: rgba(249, 250, 251, 0.86);
+        border-top: 1px solid #e5e7eb;
+      }
+
+      .primary {
+        width: 100%;
+        height: 52px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: var(--blue);
+        color: #fff;
+        font-size: 16px;
+        font-weight: 760;
+      }
+
+      .camera {
+        flex: 1;
+        margin: 0 14px 14px;
+        border-radius: 26px;
+        background:
+          radial-gradient(circle at 22% 14%, rgba(255,255,255,0.18), transparent 22%),
+          linear-gradient(145deg, #222932, #11151a);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .paper {
+        position: absolute;
+        inset: 120px 34px 118px;
+        background: #fffef8;
+        border-radius: 5px;
+        transform: rotate(-2deg);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.34);
+      }
+
+      .paper::before,
+      .paper::after {
+        content: "";
+        position: absolute;
+        left: 28px;
+        right: 28px;
+        height: 7px;
+        border-radius: 4px;
+        background: #d0d8e4;
+      }
+
+      .paper::before {
+        top: 74px;
+      }
+
+      .paper::after {
+        top: 100px;
+        right: 70px;
+      }
+
+      .scan-outline {
+        position: absolute;
+        inset: 106px 24px 104px;
+        border: 3px solid #37d67a;
+        border-radius: 12px;
+        transform: rotate(-2deg);
+      }
+
+      .scan-dot {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #37d67a;
+      }
+
+      .scan-dot:nth-child(1) { top: -9px; left: -9px; }
+      .scan-dot:nth-child(2) { top: -9px; right: -9px; }
+      .scan-dot:nth-child(3) { bottom: -9px; left: -9px; }
+      .scan-dot:nth-child(4) { bottom: -9px; right: -9px; }
+
+      .camera-controls {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 20px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        color: #fff;
+      }
+
+      .shutter {
+        width: 70px;
+        height: 70px;
+        border: 5px solid #fff;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.16);
+      }
+
+      .control-dot {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.16);
+        display: grid;
+        place-items: center;
+      }
+
+      .page-pill {
+        position: absolute;
+        left: 50%;
+        bottom: 104px;
+        transform: translateX(-50%);
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: rgba(0,0,0,0.55);
+        color: #fff;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .preview-card {
+        height: 260px;
+        display: grid;
+        place-items: center;
+        border-radius: 20px;
+        background: #e9edf3;
+        margin-bottom: 16px;
+      }
+
+      .preview-paper {
+        width: 150px;
+        height: 210px;
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0 14px 28px rgba(24,31,42,0.16);
+        padding: 28px 20px;
+      }
+
+      .line {
+        height: 7px;
+        border-radius: 5px;
+        background: #cbd5e1;
+        margin-bottom: 13px;
+      }
+
+      .line.short {
+        width: 68%;
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .action {
+        height: 70px;
+        display: grid;
+        place-items: center;
+        gap: 4px;
+        border: 1px solid #e7ebf0;
+        border-radius: 14px;
+        background: #fff;
+        color: #1f2937;
+        font-size: 12px;
+        font-weight: 650;
+      }
+
+      .action strong {
+        font-size: 20px;
+        line-height: 1;
+      }
+
+      .thumb-strip {
+        display: flex;
+        gap: 10px;
+      }
+
+      .thumb {
+        width: 56px;
+        height: 78px;
+        border-radius: 8px;
+        background: linear-gradient(180deg, #fff, #e4ebf5);
+        border: 1px solid #d1dae7;
+      }
+
+      .pdf-view {
+        flex: 1;
+        margin: 0 18px 18px;
+        border-radius: 20px;
+        background: #dfe5ec;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .pdf-page {
+        width: 72%;
+        height: 76%;
+        border-radius: 9px;
+        background: #fff;
+        box-shadow: 0 18px 34px rgba(28,36,48,0.18);
+        padding: 44px 32px;
+      }
+
+      .pdf-toolbar {
+        height: 58px;
+        margin: 0 18px 18px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+
+      .tool {
+        border-radius: 14px;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        display: grid;
+        place-items: center;
+        color: #1f2937;
+        font-size: 20px;
+      }
+
+      .settings-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .pro-card {
+        padding: 18px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #1769ff, #18a058);
+        color: #fff;
+        margin-bottom: 14px;
+      }
+
+      .pro-card h2 {
+        margin: 0 0 6px;
+        font-size: 21px;
+      }
+
+      .pro-card p {
+        margin: 0;
+        color: rgba(255,255,255,0.82);
+        font-size: 13px;
+        line-height: 1.35;
+      }
+
+      .setting-row {
+        min-height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 14px;
+        border-radius: 13px;
+        background: #fff;
+        border: 1px solid #edf0f4;
+        font-size: 14px;
+        font-weight: 650;
+      }
+
+      @media (max-width: 1280px) {
+        .grid {
+          grid-template-columns: repeat(3, minmax(230px, 1fr));
+        }
+      }
+
+      @media (max-width: 840px) {
+        main {
+          padding: 28px 18px 40px;
+        }
+
+        header {
+          display: block;
+        }
+
+        .badge {
+          display: inline-block;
+          margin-top: 14px;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <h1>CleanScan UI Preview</h1>
+          <p class="subtitle">SwiftUI MVP concept: scan, save, preview, share, and upgrade without clutter.</p>
+        </div>
+        <div class="badge">No ads · No watermark · Private by default</div>
+      </header>
+
+      <section class="grid">
+        <article class="screen-block">
+          <p class="caption">Home / Document List</p>
+          <div class="phone">
+            <div class="screen">
+              <div class="island"></div>
+              <div class="status"><span>9:41</span><span>5G 100%</span></div>
+              <div class="nav">
+                <div class="title">CleanScan</div>
+                <div class="icon-btn">+</div>
+              </div>
+              <div class="content">
+                <div class="search">⌕ Search documents</div>
+                <div class="doc-list">
+                  <div class="doc-row">
+                    <div class="doc-icon"></div>
+                    <div>
+                      <div class="doc-name">Client Contract</div>
+                      <div class="doc-meta">4 pages · Today, 10:12</div>
+                    </div>
+                    <div class="chevron">›</div>
+                  </div>
+                  <div class="doc-row">
+                    <div class="doc-icon"></div>
+                    <div>
+                      <div class="doc-name">Tax Receipts</div>
+                      <div class="doc-meta">8 pages · Yesterday</div>
+                    </div>
+                    <div class="chevron">›</div>
+                  </div>
+                  <div class="doc-row">
+                    <div class="doc-icon"></div>
+                    <div>
+                      <div class="doc-name">Lecture Notes</div>
+                      <div class="doc-meta">12 pages · Jun 7</div>
+                    </div>
+                    <div class="chevron">›</div>
+                  </div>
+                </div>
+              </div>
+              <div class="scan-bar">
+                <div class="primary">▣ Scan Document</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="screen-block">
+          <p class="caption">Scanning / Edge Detection</p>
+          <div class="phone">
+            <div class="screen" style="background:#0d1117">
+              <div class="island"></div>
+              <div class="status" style="color:#fff"><span>9:41</span><span>5G 100%</span></div>
+              <div class="camera">
+                <div class="paper"></div>
+                <div class="scan-outline">
+                  <div class="scan-dot"></div>
+                  <div class="scan-dot"></div>
+                  <div class="scan-dot"></div>
+                  <div class="scan-dot"></div>
+                </div>
+                <div class="page-pill">3 pages</div>
+                <div class="camera-controls">
+                  <div class="control-dot">↯</div>
+                  <div class="shutter"></div>
+                  <div class="control-dot">▧</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="screen-block">
+          <p class="caption">Document Detail</p>
+          <div class="phone">
+            <div class="screen">
+              <div class="island"></div>
+              <div class="status"><span>9:41</span><span>5G 100%</span></div>
+              <div class="nav">
+                <div class="icon-btn">‹</div>
+                <div class="small-title">Client Contract</div>
+                <div class="icon-btn">⋯</div>
+              </div>
+              <div class="content">
+                <div class="preview-card">
+                  <div class="preview-paper">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line short"></div>
+                    <div class="line"></div>
+                    <div class="line short"></div>
+                  </div>
+                </div>
+                <div class="actions">
+                  <div class="action"><strong>👁</strong>Preview</div>
+                  <div class="action"><strong>↥</strong>Share</div>
+                  <div class="action"><strong>✎</strong>Rename</div>
+                </div>
+                <div class="thumb-strip">
+                  <div class="thumb"></div>
+                  <div class="thumb"></div>
+                  <div class="thumb"></div>
+                  <div class="thumb"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="screen-block">
+          <p class="caption">PDF Preview</p>
+          <div class="phone">
+            <div class="screen">
+              <div class="island"></div>
+              <div class="status"><span>9:41</span><span>5G 100%</span></div>
+              <div class="nav">
+                <div class="icon-btn">‹</div>
+                <div class="small-title">Preview PDF</div>
+                <div class="icon-btn">↥</div>
+              </div>
+              <div class="pdf-view">
+                <div class="pdf-page">
+                  <div class="line"></div>
+                  <div class="line"></div>
+                  <div class="line short"></div>
+                  <div class="line"></div>
+                  <div class="line"></div>
+                  <div class="line short"></div>
+                </div>
+              </div>
+              <div class="pdf-toolbar">
+                <div class="tool">−</div>
+                <div class="tool">72%</div>
+                <div class="tool">+</div>
+                <div class="tool">↥</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="screen-block">
+          <p class="caption">Settings / Pro</p>
+          <div class="phone">
+            <div class="screen">
+              <div class="island"></div>
+              <div class="status"><span>9:41</span><span>5G 100%</span></div>
+              <div class="nav">
+                <div class="title">Settings</div>
+                <div class="icon-btn">×</div>
+              </div>
+              <div class="content">
+                <div class="pro-card">
+                  <h2>CleanScan Pro</h2>
+                  <p>Unlimited scans, OCR, signatures, compression, and batch export.</p>
+                </div>
+                <div class="settings-list">
+                  <div class="setting-row"><span>Restore Purchases</span><span>›</span></div>
+                  <div class="setting-row"><span>Privacy Policy</span><span>›</span></div>
+                  <div class="setting-row"><span>Terms of Use</span><span>›</span></div>
+                  <div class="setting-row"><span>Contact Support</span><span>›</span></div>
+                  <div class="setting-row"><span>Version</span><span>0.1</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

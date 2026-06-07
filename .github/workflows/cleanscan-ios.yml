@@ -1,0 +1,49 @@
+name: CleanScan iOS
+
+on:
+  push:
+    paths:
+      - "apps/cleanscan-ios/**"
+      - ".github/workflows/cleanscan-ios.yml"
+  pull_request:
+    paths:
+      - "apps/cleanscan-ios/**"
+      - ".github/workflows/cleanscan-ios.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build CleanScan
+    runs-on: macos-15
+    timeout-minutes: 30
+
+    defaults:
+      run:
+        working-directory: apps/cleanscan-ios
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show Xcode environment
+        run: |
+          sw_vers
+          xcodebuild -version
+          xcode-select -p
+
+      - name: List available simulators
+        run: xcrun simctl list devices available
+
+      - name: List Xcode project schemes
+        run: xcodebuild -list -project CleanScan.xcodeproj
+
+      - name: Run CleanScan CI build
+        run: bash scripts/ci-build.sh
+
+      - name: Upload Xcode result bundles
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cleanscan-xcresults
+          path: apps/cleanscan-ios/build/results/*.xcresult
+          if-no-files-found: ignore

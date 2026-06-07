@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="980" viewBox="0 0 1440 980">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#16202f" flood-opacity="0.18"/>
+    </filter>
+    <linearGradient id="blueGreen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1769ff"/>
+      <stop offset="1" stop-color="#18a058"/>
+    </linearGradient>
+    <linearGradient id="docPaper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#e2eaf5"/>
+    </linearGradient>
+    <style>
+      .bg{fill:#eef1f4}
+      .ink{fill:#121417}
+      .muted{fill:#6b7280}
+      .phone{fill:#111317}
+      .screen{fill:#f9fafb}
+      .card{fill:#fff;stroke:#e7ebf0;stroke-width:1}
+      .soft{fill:#e8edf4}
+      .blue{fill:#1769ff}
+      .green{fill:#18a058}
+      .line{fill:#cbd5e1}
+      .label{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:18px;font-weight:700;fill:#374151}
+      .h1{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:36px;font-weight:800;fill:#121417}
+      .body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:16px;fill:#6b7280}
+      .uiTitle{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:29px;font-weight:800;fill:#121417}
+      .uiSmall{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:17px;font-weight:750;fill:#121417}
+      .uiText{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:15px;font-weight:700;fill:#121417}
+      .uiMeta{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:12px;fill:#6b7280}
+      .whiteText{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:16px;font-weight:800;fill:#fff}
+    </style>
+  </defs>
+
+  <rect class="bg" width="1440" height="980"/>
+  <text class="h1" x="54" y="66">CleanScan UI Preview</text>
+  <text class="body" x="54" y="96">SwiftUI MVP concept: scan, save, preview, share, and upgrade without clutter.</text>
+  <rect x="1087" y="50" width="298" height="38" rx="19" fill="#fff" opacity="0.78" stroke="#d9dde3"/>
+  <text class="body" x="1112" y="75" font-size="14">No ads · No watermark · Private by default</text>
+
+  <!-- Phone 1 -->
+  <text class="label" x="54" y="148">Home / Document List</text>
+  <g transform="translate(54 166)" filter="url(#shadow)">
+    <rect class="phone" width="238" height="514" rx="34"/>
+    <rect class="screen" x="8" y="8" width="222" height="498" rx="26"/>
+    <rect x="87" y="14" width="64" height="18" rx="9" fill="#090a0c"/>
+    <text class="uiMeta" x="26" y="39" font-weight="800">9:41</text>
+    <text class="uiTitle" x="24" y="86">CleanScan</text>
+    <circle class="soft" cx="202" cy="74" r="18"/>
+    <text class="uiSmall" x="197" y="80">+</text>
+    <rect x="22" y="108" width="194" height="34" rx="11" fill="#e7ebf0"/>
+    <text class="uiMeta" x="40" y="130">Search documents</text>
+    <g transform="translate(22 158)">
+      <rect class="card" width="194" height="64" rx="13"/>
+      <rect x="12" y="9" width="34" height="44" rx="7" fill="url(#docPaper)" stroke="#cfd8e6"/>
+      <rect class="line" x="19" y="25" width="20" height="3" rx="2"/>
+      <rect class="line" x="19" y="34" width="17" height="3" rx="2"/>
+      <text class="uiText" x="58" y="29">Client Contract</text>
+      <text class="uiMeta" x="58" y="47">4 pages · Today</text>
+      <text class="muted" x="178" y="39" font-size="25">›</text>
+    </g>
+    <g transform="translate(22 232)">
+      <rect class="card" width="194" height="64" rx="13"/>
+      <rect x="12" y="9" width="34" height="44" rx="7" fill="url(#docPaper)" stroke="#cfd8e6"/>
+      <rect class="line" x="19" y="25" width="20" height="3" rx="2"/>
+      <rect class="line" x="19" y="34" width="17" height="3" rx="2"/>
+      <text class="uiText" x="58" y="29">Tax Receipts</text>
+      <text class="uiMeta" x="58" y="47">8 pages · Yesterday</text>
+      <text class="muted" x="178" y="39" font-size="25">›</text>
+    </g>
+    <g transform="translate(22 306)">
+      <rect class="card" width="194" height="64" rx="13"/>
+      <rect x="12" y="9" width="34" height="44" rx="7" fill="url(#docPaper)" stroke="#cfd8e6"/>
+      <rect class="line" x="19" y="25" width="20" height="3" rx="2"/>
+      <rect class="line" x="19" y="34" width="17" height="3" rx="2"/>
+      <text class="uiText" x="58" y="29">Lecture Notes</text>
+      <text class="uiMeta" x="58" y="47">12 pages · Jun 7</text>
+      <text class="muted" x="178" y="39" font-size="25">›</text>
+    </g>
+    <rect x="0" y="440" width="238" height="74" rx="0" fill="#f9fafb" opacity="0.92"/>
+    <rect class="blue" x="22" y="453" width="194" height="42" rx="14"/>
+    <text class="whiteText" x="67" y="480">Scan Document</text>
+  </g>
+
+  <!-- Phone 2 -->
+  <text class="label" x="327" y="148">Scanning / Edge Detection</text>
+  <g transform="translate(327 166)" filter="url(#shadow)">
+    <rect class="phone" width="238" height="514" rx="34"/>
+    <rect x="8" y="8" width="222" height="498" rx="26" fill="#0d1117"/>
+    <rect x="87" y="14" width="64" height="18" rx="9" fill="#090a0c"/>
+    <text x="26" y="39" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" font-size="12" font-weight="800" fill="#fff">9:41</text>
+    <rect x="25" y="96" width="188" height="282" rx="8" fill="#fffef8" transform="rotate(-2 119 237)"/>
+    <rect x="55" y="180" width="120" height="7" rx="4" fill="#d0d8e4" transform="rotate(-2 115 183)"/>
+    <rect x="55" y="204" width="92" height="7" rx="4" fill="#d0d8e4" transform="rotate(-2 101 207)"/>
+    <rect x="25" y="84" width="188" height="312" rx="12" fill="none" stroke="#37d67a" stroke-width="3" transform="rotate(-2 119 240)"/>
+    <circle cx="31" cy="88" r="7" fill="#37d67a"/>
+    <circle cx="213" cy="82" r="7" fill="#37d67a"/>
+    <circle cx="43" cy="398" r="7" fill="#37d67a"/>
+    <circle cx="224" cy="392" r="7" fill="#37d67a"/>
+    <rect x="88" y="374" width="62" height="25" rx="13" fill="#000" opacity="0.55"/>
+    <text x="101" y="391" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" font-size="12" font-weight="800" fill="#fff">3 pages</text>
+    <circle cx="119" cy="454" r="33" fill="none" stroke="#fff" stroke-width="5"/>
+    <circle cx="53" cy="454" r="21" fill="#fff" opacity="0.16"/>
+    <circle cx="185" cy="454" r="21" fill="#fff" opacity="0.16"/>
+  </g>
+
+  <!-- Phone 3 -->
+  <text class="label" x="600" y="148">Document Detail</text>
+  <g transform="translate(600 166)" filter="url(#shadow)">
+    <rect class="phone" width="238" height="514" rx="34"/>
+    <rect class="screen" x="8" y="8" width="222" height="498" rx="26"/>
+    <rect x="87" y="14" width="64" height="18" rx="9" fill="#090a0c"/>
+    <text class="uiMeta" x="26" y="39" font-weight="800">9:41</text>
+    <circle class="soft" cx="35" cy="74" r="18"/>
+    <text class="uiSmall" x="30" y="80">‹</text>
+    <text class="uiSmall" x="75" y="80">Client Contract</text>
+    <circle class="soft" cx="202" cy="74" r="18"/>
+    <text class="uiSmall" x="196" y="78">⋯</text>
+    <rect x="22" y="104" width="194" height="160" rx="18" fill="#e9edf3"/>
+    <rect x="75" y="126" width="88" height="118" rx="7" fill="#fff"/>
+    <rect class="line" x="92" y="155" width="54" height="5" rx="3"/>
+    <rect class="line" x="92" y="174" width="54" height="5" rx="3"/>
+    <rect class="line" x="92" y="193" width="38" height="5" rx="3"/>
+    <g transform="translate(22 280)">
+      <rect class="card" width="58" height="62" rx="13"/>
+      <text class="uiSmall" x="21" y="27">👁</text>
+      <text class="uiMeta" x="10" y="47" font-weight="800">Preview</text>
+      <rect class="card" x="68" width="58" height="62" rx="13"/>
+      <text class="uiSmall" x="89" y="27">↥</text>
+      <text class="uiMeta" x="80" y="47" font-weight="800">Share</text>
+      <rect class="card" x="136" width="58" height="62" rx="13"/>
+      <text class="uiSmall" x="158" y="27">✎</text>
+      <text class="uiMeta" x="147" y="47" font-weight="800">Rename</text>
+    </g>
+    <rect x="22" y="368" width="38" height="54" rx="7" fill="url(#docPaper)" stroke="#cfd8e6"/>
+    <rect x="70" y="368" width="38" height="54" rx="7" fill="url(#docPaper)" stroke="#cfd8e6"/>
+    <rect x="118" y="368" width="38" height="54" rx="7" fill="url(#docPaper)" stroke="#cfd8e6"/>
+    <rect x="166" y="368" width="38" height="54" rx="7" fill="url(#docPaper)" stroke="#cfd8e6"/>
+  </g>
+
+  <!-- Phone 4 -->
+  <text class="label" x="873" y="148">PDF Preview</text>
+  <g transform="translate(873 166)" filter="url(#shadow)">
+    <rect class="phone" width="238" height="514" rx="34"/>
+    <rect class="screen" x="8" y="8" width="222" height="498" rx="26"/>
+    <rect x="87" y="14" width="64" height="18" rx="9" fill="#090a0c"/>
+    <text class="uiMeta" x="26" y="39" font-weight="800">9:41</text>
+    <circle class="soft" cx="35" cy="74" r="18"/>
+    <text class="uiSmall" x="30" y="80">‹</text>
+    <text class="uiSmall" x="80" y="80">Preview PDF</text>
+    <circle class="soft" cx="202" cy="74" r="18"/>
+    <text class="uiSmall" x="197" y="80">↥</text>
+    <rect x="22" y="104" width="194" height="318" rx="18" fill="#dfe5ec"/>
+    <rect x="58" y="134" width="122" height="250" rx="8" fill="#fff"/>
+    <rect class="line" x="82" y="176" width="76" height="6" rx="3"/>
+    <rect class="line" x="82" y="200" width="76" height="6" rx="3"/>
+    <rect class="line" x="82" y="224" width="52" height="6" rx="3"/>
+    <rect class="line" x="82" y="248" width="76" height="6" rx="3"/>
+    <rect class="line" x="82" y="272" width="64" height="6" rx="3"/>
+    <rect class="card" x="22" y="438" width="42" height="42" rx="13"/>
+    <text class="uiSmall" x="38" y="465">−</text>
+    <rect class="card" x="73" y="438" width="42" height="42" rx="13"/>
+    <text class="uiMeta" x="83" y="463" font-weight="800">72%</text>
+    <rect class="card" x="124" y="438" width="42" height="42" rx="13"/>
+    <text class="uiSmall" x="139" y="465">+</text>
+    <rect class="card" x="175" y="438" width="42" height="42" rx="13"/>
+    <text class="uiSmall" x="190" y="465">↥</text>
+  </g>
+
+  <!-- Phone 5 -->
+  <text class="label" x="1146" y="148">Settings / Pro</text>
+  <g transform="translate(1146 166)" filter="url(#shadow)">
+    <rect class="phone" width="238" height="514" rx="34"/>
+    <rect class="screen" x="8" y="8" width="222" height="498" rx="26"/>
+    <rect x="87" y="14" width="64" height="18" rx="9" fill="#090a0c"/>
+    <text class="uiMeta" x="26" y="39" font-weight="800">9:41</text>
+    <text class="uiTitle" x="24" y="86">Settings</text>
+    <circle class="soft" cx="202" cy="74" r="18"/>
+    <text class="uiSmall" x="197" y="80">×</text>
+    <rect x="22" y="108" width="194" height="106" rx="18" fill="url(#blueGreen)"/>
+    <text x="40" y="146" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" font-size="20" font-weight="800" fill="#fff">CleanScan Pro</text>
+    <text x="40" y="171" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" font-size="12" fill="#fff" opacity="0.84">Unlimited scans, OCR,</text>
+    <text x="40" y="188" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" font-size="12" fill="#fff" opacity="0.84">signatures, compression.</text>
+    <g transform="translate(22 232)">
+      <rect class="card" width="194" height="46" rx="12"/>
+      <text class="uiText" x="14" y="29">Restore Purchases</text><text class="muted" x="178" y="30" font-size="20">›</text>
+      <rect class="card" y="56" width="194" height="46" rx="12"/>
+      <text class="uiText" x="14" y="85">Privacy Policy</text><text class="muted" x="178" y="86" font-size="20">›</text>
+      <rect class="card" y="112" width="194" height="46" rx="12"/>
+      <text class="uiText" x="14" y="141">Terms of Use</text><text class="muted" x="178" y="142" font-size="20">›</text>
+      <rect class="card" y="168" width="194" height="46" rx="12"/>
+      <text class="uiText" x="14" y="197">Contact Support</text><text class="muted" x="178" y="198" font-size="20">›</text>
+    </g>
+  </g>
+
+  <text class="body" x="54" y="744">Generated preview files:</text>
+  <text class="body" x="54" y="772">apps/cleanscan-ios/preview/ui-preview.html</text>
+  <text class="body" x="54" y="798">apps/cleanscan-ios/preview/ui-preview.svg</text>
+</svg>

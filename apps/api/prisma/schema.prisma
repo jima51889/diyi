@@ -1,0 +1,568 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            BigInt         @id @default(autoincrement()) @db.UnsignedBigInt
+  openid        String         @unique @db.VarChar(64)
+  nickname      String?        @db.VarChar(64)
+  avatar        String?        @db.VarChar(512)
+  phone         String?        @db.VarChar(32)
+  createdAt     DateTime       @default(now()) @map("created_at")
+  orders        Order[]
+  progress      UserProgress[]
+  finishRecords FinishRecord[]
+  creator       Creator?
+  npcProfile    NpcProfile?
+  complaints    Complaint[]
+  eventAssignments UserEventAssignment[]
+
+  @@map("users")
+}
+
+model Quest {
+  id            BigInt         @id @default(autoincrement()) @db.UnsignedBigInt
+  creatorId     BigInt?        @map("creator_id") @db.UnsignedBigInt
+  title         String         @db.VarChar(120)
+  cover         String?        @db.VarChar(512)
+  description   String?        @db.Text
+  city          String         @default("重庆") @db.VarChar(64)
+  season        String?        @db.VarChar(32)
+  price         Decimal        @default(0) @db.Decimal(10, 2)
+  commissionRuleId BigInt?     @map("commission_rule_id") @db.UnsignedBigInt
+  duration      Int            @default(0) @db.UnsignedInt
+  distance      Decimal        @default(0) @db.Decimal(8, 2)
+  difficulty    String         @default("easy") @db.VarChar(32)
+  status        String         @default("draft") @db.VarChar(32)
+  config        Json?
+  rejectReason  String?        @map("reject_reason") @db.VarChar(512)
+  submittedAt   DateTime?      @map("submitted_at")
+  approvedAt    DateTime?      @map("approved_at")
+  publishedAt   DateTime?      @map("published_at")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  creator       Creator?       @relation(fields: [creatorId], references: [id])
+  commissionRule CommissionRule? @relation(fields: [commissionRuleId], references: [id])
+  nodes         QuestNode[]
+  orders        Order[]
+  progress      UserProgress[]
+  finishRecords FinishRecord[]
+  auditLogs     QuestAuditLog[]
+  commissionRecords CommissionRecord[]
+  npcJobs       NpcJob[]
+
+  @@index([creatorId])
+  @@index([commissionRuleId])
+  @@index([status])
+  @@map("quests")
+}
+
+model QuestAuditLog {
+  id         BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  questId    BigInt   @map("quest_id") @db.UnsignedBigInt
+  operatorId BigInt?  @map("operator_id") @db.UnsignedBigInt
+  action     String   @db.VarChar(64)
+  fromStatus String?  @map("from_status") @db.VarChar(32)
+  toStatus   String?  @map("to_status") @db.VarChar(32)
+  remark     String?  @db.VarChar(512)
+  createdAt  DateTime @default(now()) @map("created_at")
+  quest      Quest    @relation(fields: [questId], references: [id])
+
+  @@index([questId])
+  @@map("quest_audit_logs")
+}
+
+model QuestNode {
+  id        BigInt  @id @default(autoincrement()) @db.UnsignedBigInt
+  questId   BigInt  @map("quest_id") @db.UnsignedBigInt
+  nodeIndex Int     @map("node_index") @db.UnsignedInt
+  nodeType  String  @map("node_type") @db.VarChar(32)
+  title     String  @db.VarChar(120)
+  content   String? @db.Text
+  lat       Decimal? @db.Decimal(10, 6)
+  lng       Decimal? @db.Decimal(10, 6)
+  radius    Int?    @db.UnsignedInt
+  answer    String? @db.VarChar(255)
+  reward    Json?
+  nextNode  BigInt? @map("next_node") @db.UnsignedBigInt
+  createdAt DateTime @default(now()) @map("created_at")
+  quest     Quest   @relation(fields: [questId], references: [id])
+  npcJobs   NpcJob[]
+
+  @@unique([questId, nodeIndex])
+  @@index([questId])
+  @@map("quest_nodes")
+}
+
+model Order {
+  id        BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  userId    BigInt    @map("user_id") @db.UnsignedBigInt
+  questId   BigInt    @map("quest_id") @db.UnsignedBigInt
+  amount    Decimal   @db.Decimal(10, 2)
+  status    String    @default("pending") @db.VarChar(32)
+  payTime   DateTime? @map("pay_time")
+  createdAt DateTime  @default(now()) @map("created_at")
+  user      User      @relation(fields: [userId], references: [id])
+  quest     Quest     @relation(fields: [questId], references: [id])
+  commissionRecord CommissionRecord?
+
+  @@index([userId])
+  @@index([questId])
+  @@map("orders")
+}
+
+model UserProgress {
+  id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  userId      BigInt   @map("user_id") @db.UnsignedBigInt
+  questId     BigInt   @map("quest_id") @db.UnsignedBigInt
+  currentNode BigInt?  @map("current_node") @db.UnsignedBigInt
+  progress    Json?
+  status      String   @default("not_started") @db.VarChar(32)
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  user        User     @relation(fields: [userId], references: [id])
+  quest       Quest    @relation(fields: [questId], references: [id])
+
+  @@unique([userId, questId])
+  @@map("user_progress")
+}
+
+model FinishRecord {
+  id             BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  userId         BigInt   @map("user_id") @db.UnsignedBigInt
+  questId        BigInt   @map("quest_id") @db.UnsignedBigInt
+  finishTime     DateTime @map("finish_time")
+  duration       Int      @default(0) @db.UnsignedInt
+  certificateUrl String?  @map("certificate_url") @db.VarChar(512)
+  createdAt      DateTime @default(now()) @map("created_at")
+  user           User     @relation(fields: [userId], references: [id])
+  quest          Quest    @relation(fields: [questId], references: [id])
+
+  @@index([userId])
+  @@map("finish_records")
+}
+
+model Admin {
+  id           BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  username     String   @unique @db.VarChar(64)
+  passwordHash String   @map("password_hash") @db.VarChar(255)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("admins")
+}
+
+model Creator {
+  id             BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  userId         BigInt              @unique @map("user_id") @db.UnsignedBigInt
+  displayName    String              @map("display_name") @db.VarChar(80)
+  realName       String?             @map("real_name") @db.VarChar(80)
+  phone          String?             @db.VarChar(32)
+  idCardNo       String?             @map("id_card_no") @db.VarChar(64)
+  status         String              @default("pending") @db.VarChar(32)
+  rejectReason   String?             @map("reject_reason") @db.VarChar(512)
+  createdAt      DateTime            @default(now()) @map("created_at")
+  updatedAt      DateTime            @updatedAt @map("updated_at")
+  user           User                @relation(fields: [userId], references: [id])
+  profile        CreatorProfile?
+  quests         Quest[]
+  commissionRecords CommissionRecord[]
+
+  @@index([status])
+  @@map("creators")
+}
+
+model CreatorProfile {
+  id                BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  creatorId         BigInt   @unique @map("creator_id") @db.UnsignedBigInt
+  bio               String?  @db.Text
+  city              String?  @db.VarChar(64)
+  portfolioUrl      String?  @map("portfolio_url") @db.VarChar(512)
+  settlementAccount Json?    @map("settlement_account")
+  riskNote          String?  @map("risk_note") @db.VarChar(512)
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+  creator           Creator  @relation(fields: [creatorId], references: [id])
+
+  @@map("creator_profiles")
+}
+
+model CommissionRule {
+  id              BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  name            String   @db.VarChar(80)
+  targetType      String   @default("quest") @map("target_type") @db.VarChar(32)
+  platformRate    Decimal  @default(30.00) @map("platform_rate") @db.Decimal(5, 2)
+  creatorRate     Decimal  @default(70.00) @map("creator_rate") @db.Decimal(5, 2)
+  npcBudgetRate   Decimal  @default(0.00) @map("npc_budget_rate") @db.Decimal(5, 2)
+  paymentFeeRate  Decimal  @default(0.60) @map("payment_fee_rate") @db.Decimal(5, 2)
+  status          String   @default("active") @db.VarChar(32)
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  quests          Quest[]
+  commissionRecords CommissionRecord[]
+
+  @@index([status])
+  @@map("commission_rules")
+}
+
+model CommissionRecord {
+  id               BigInt          @id @default(autoincrement()) @db.UnsignedBigInt
+  orderId          BigInt          @unique @map("order_id") @db.UnsignedBigInt
+  questId          BigInt          @map("quest_id") @db.UnsignedBigInt
+  creatorId        BigInt?         @map("creator_id") @db.UnsignedBigInt
+  ruleId           BigInt?         @map("rule_id") @db.UnsignedBigInt
+  grossAmount      Decimal         @map("gross_amount") @db.Decimal(10, 2)
+  paymentFeeAmount Decimal         @default(0.00) @map("payment_fee_amount") @db.Decimal(10, 2)
+  platformAmount   Decimal         @default(0.00) @map("platform_amount") @db.Decimal(10, 2)
+  creatorAmount    Decimal         @default(0.00) @map("creator_amount") @db.Decimal(10, 2)
+  status           String          @default("pending") @db.VarChar(32)
+  frozenReason     String?         @map("frozen_reason") @db.VarChar(512)
+  createdAt        DateTime        @default(now()) @map("created_at")
+  settledAt        DateTime?       @map("settled_at")
+  order            Order           @relation(fields: [orderId], references: [id])
+  quest            Quest           @relation(fields: [questId], references: [id])
+  creator          Creator?        @relation(fields: [creatorId], references: [id])
+  rule             CommissionRule? @relation(fields: [ruleId], references: [id])
+
+  @@index([creatorId])
+  @@index([status])
+  @@map("commission_records")
+}
+
+model SettlementBatch {
+  id          BigInt             @id @default(autoincrement()) @db.UnsignedBigInt
+  batchNo     String             @unique @map("batch_no") @db.VarChar(64)
+  targetType  String             @map("target_type") @db.VarChar(32)
+  status      String             @default("draft") @db.VarChar(32)
+  totalAmount Decimal            @default(0.00) @map("total_amount") @db.Decimal(12, 2)
+  recordCount Int                @default(0) @map("record_count") @db.UnsignedInt
+  operatorId  BigInt?            @map("operator_id") @db.UnsignedBigInt
+  createdAt   DateTime           @default(now()) @map("created_at")
+  approvedAt  DateTime?          @map("approved_at")
+  paidAt      DateTime?          @map("paid_at")
+  records     SettlementRecord[]
+
+  @@index([status])
+  @@map("settlement_batches")
+}
+
+model SettlementRecord {
+  id         BigInt           @id @default(autoincrement()) @db.UnsignedBigInt
+  batchId    BigInt?          @map("batch_id") @db.UnsignedBigInt
+  targetType String           @map("target_type") @db.VarChar(32)
+  targetId   BigInt           @map("target_id") @db.UnsignedBigInt
+  sourceType String           @map("source_type") @db.VarChar(32)
+  sourceId   BigInt           @map("source_id") @db.UnsignedBigInt
+  amount     Decimal          @db.Decimal(10, 2)
+  status     String           @default("payable") @db.VarChar(32)
+  paidAt     DateTime?        @map("paid_at")
+  createdAt  DateTime         @default(now()) @map("created_at")
+  batch      SettlementBatch? @relation(fields: [batchId], references: [id])
+
+  @@index([targetType, targetId])
+  @@index([status])
+  @@map("settlement_records")
+}
+
+model NpcProfile {
+  id            BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  userId        BigInt              @unique @map("user_id") @db.UnsignedBigInt
+  displayName   String              @map("display_name") @db.VarChar(80)
+  realName      String?             @map("real_name") @db.VarChar(80)
+  phone         String?             @db.VarChar(32)
+  city          String              @default("重庆") @db.VarChar(64)
+  skills        Json?
+  status        String              @default("pending") @db.VarChar(32)
+  rejectReason  String?             @map("reject_reason") @db.VarChar(512)
+  createdAt     DateTime            @default(now()) @map("created_at")
+  updatedAt     DateTime            @updatedAt @map("updated_at")
+  user          User                @relation(fields: [userId], references: [id])
+  applications  NpcJobApplication[]
+  assignments   NpcAssignment[]
+  settlements   NpcSettlement[]
+
+  @@index([city, status])
+  @@map("npc_profiles")
+}
+
+model NpcJob {
+  id                 BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  questId            BigInt?             @map("quest_id") @db.UnsignedBigInt
+  nodeId             BigInt?             @map("node_id") @db.UnsignedBigInt
+  title              String              @db.VarChar(120)
+  city               String              @default("重庆") @db.VarChar(64)
+  locationName       String?             @map("location_name") @db.VarChar(120)
+  lat                Decimal?            @db.Decimal(10, 6)
+  lng                Decimal?            @db.Decimal(10, 6)
+  serviceStart       DateTime?           @map("service_start")
+  serviceEnd         DateTime?           @map("service_end")
+  recruitCount       Int                 @default(1) @map("recruit_count") @db.UnsignedInt
+  roleRequirement    String?             @map("role_requirement") @db.Text
+  serviceScript      String?             @map("service_script") @db.Text
+  acceptanceStandard String?             @map("acceptance_standard") @db.Text
+  commissionAmount   Decimal             @default(0.00) @map("commission_amount") @db.Decimal(10, 2)
+  status             String              @default("draft") @db.VarChar(32)
+  createdBy          BigInt?             @map("created_by") @db.UnsignedBigInt
+  createdAt          DateTime            @default(now()) @map("created_at")
+  updatedAt          DateTime            @updatedAt @map("updated_at")
+  quest              Quest?              @relation(fields: [questId], references: [id])
+  node               QuestNode?          @relation(fields: [nodeId], references: [id])
+  applications       NpcJobApplication[]
+  assignments        NpcAssignment[]
+
+  @@index([city, status])
+  @@index([questId, nodeId])
+  @@map("npc_jobs")
+}
+
+model NpcJobApplication {
+  id         BigInt     @id @default(autoincrement()) @db.UnsignedBigInt
+  jobId      BigInt     @map("job_id") @db.UnsignedBigInt
+  npcId      BigInt     @map("npc_id") @db.UnsignedBigInt
+  message    String?    @db.VarChar(512)
+  status     String     @default("pending") @db.VarChar(32)
+  reviewedBy BigInt?    @map("reviewed_by") @db.UnsignedBigInt
+  reviewedAt DateTime?  @map("reviewed_at")
+  createdAt  DateTime   @default(now()) @map("created_at")
+  job        NpcJob     @relation(fields: [jobId], references: [id])
+  npc        NpcProfile @relation(fields: [npcId], references: [id])
+  assignments NpcAssignment[]
+
+  @@unique([jobId, npcId])
+  @@index([status])
+  @@map("npc_job_applications")
+}
+
+model NpcAssignment {
+  id               BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  jobId            BigInt              @map("job_id") @db.UnsignedBigInt
+  npcId            BigInt              @map("npc_id") @db.UnsignedBigInt
+  applicationId    BigInt?             @map("application_id") @db.UnsignedBigInt
+  status           String              @default("assigned") @db.VarChar(32)
+  commissionAmount Decimal             @default(0.00) @map("commission_amount") @db.Decimal(10, 2)
+  assignedAt       DateTime            @default(now()) @map("assigned_at")
+  completedAt      DateTime?           @map("completed_at")
+  job              NpcJob              @relation(fields: [jobId], references: [id])
+  npc              NpcProfile          @relation(fields: [npcId], references: [id])
+  application      NpcJobApplication?  @relation(fields: [applicationId], references: [id])
+  checkins         NpcCheckin[]
+  submissions      NpcSubmission[]
+  settlement       NpcSettlement?
+
+  @@index([jobId])
+  @@index([npcId, status])
+  @@map("npc_assignments")
+}
+
+model NpcCheckin {
+  id           BigInt        @id @default(autoincrement()) @db.UnsignedBigInt
+  assignmentId BigInt        @map("assignment_id") @db.UnsignedBigInt
+  lat          Decimal?      @db.Decimal(10, 6)
+  lng          Decimal?      @db.Decimal(10, 6)
+  photoUrl     String?       @map("photo_url") @db.VarChar(512)
+  checkedAt    DateTime      @default(now()) @map("checked_at")
+  assignment   NpcAssignment @relation(fields: [assignmentId], references: [id])
+
+  @@index([assignmentId])
+  @@map("npc_checkins")
+}
+
+model NpcSubmission {
+  id           BigInt        @id @default(autoincrement()) @db.UnsignedBigInt
+  assignmentId BigInt        @map("assignment_id") @db.UnsignedBigInt
+  proofType    String        @default("photo") @map("proof_type") @db.VarChar(32)
+  proofPayload Json?         @map("proof_payload")
+  status       String        @default("pending") @db.VarChar(32)
+  reviewRemark String?       @map("review_remark") @db.VarChar(512)
+  reviewedBy   BigInt?       @map("reviewed_by") @db.UnsignedBigInt
+  reviewedAt   DateTime?     @map("reviewed_at")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  assignment   NpcAssignment @relation(fields: [assignmentId], references: [id])
+
+  @@index([assignmentId])
+  @@index([status])
+  @@map("npc_submissions")
+}
+
+model NpcSettlement {
+  id             BigInt        @id @default(autoincrement()) @db.UnsignedBigInt
+  assignmentId   BigInt        @unique @map("assignment_id") @db.UnsignedBigInt
+  npcId          BigInt        @map("npc_id") @db.UnsignedBigInt
+  amount         Decimal       @db.Decimal(10, 2)
+  status         String        @default("pending") @db.VarChar(32)
+  frozenReason   String?       @map("frozen_reason") @db.VarChar(512)
+  createdAt      DateTime      @default(now()) @map("created_at")
+  settledAt      DateTime?     @map("settled_at")
+  assignment     NpcAssignment @relation(fields: [assignmentId], references: [id])
+  npc            NpcProfile    @relation(fields: [npcId], references: [id])
+
+  @@index([npcId, status])
+  @@map("npc_settlements")
+}
+
+model Complaint {
+  id         BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  userId     BigInt    @map("user_id") @db.UnsignedBigInt
+  targetType String    @map("target_type") @db.VarChar(32)
+  targetId   BigInt    @map("target_id") @db.UnsignedBigInt
+  content    String    @db.Text
+  status     String    @default("open") @db.VarChar(32)
+  handledBy  BigInt?   @map("handled_by") @db.UnsignedBigInt
+  handledAt  DateTime? @map("handled_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  user       User      @relation(fields: [userId], references: [id])
+
+  @@index([targetType, targetId])
+  @@index([status])
+  @@map("complaints")
+}
+
+model RiskLog {
+  id         BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  targetType String   @map("target_type") @db.VarChar(32)
+  targetId   BigInt   @map("target_id") @db.UnsignedBigInt
+  riskType   String   @map("risk_type") @db.VarChar(64)
+  level      String   @default("notice") @db.VarChar(32)
+  message    String   @db.VarChar(512)
+  metadata   Json?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@index([targetType, targetId])
+  @@index([level])
+  @@map("risk_logs")
+}
+
+model CityEvent {
+  id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  city        String   @default("重庆") @db.VarChar(64)
+  title       String   @db.VarChar(120)
+  eventType   String   @default("daily") @map("event_type") @db.VarChar(32)
+  rarity      String   @default("normal") @db.VarChar(32)
+  summary     String   @db.Text
+  cover       String?  @db.VarChar(512)
+  reward      Json?
+  status      String   @default("online") @db.VarChar(32)
+  startsAt    DateTime @map("starts_at")
+  endsAt      DateTime @map("ends_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  tasks       EventTask[]
+  assignments UserEventAssignment[]
+
+  @@index([city, status, startsAt, endsAt])
+  @@map("city_events")
+}
+
+model EventTask {
+  id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  eventId     BigInt   @map("event_id") @db.UnsignedBigInt
+  title       String   @db.VarChar(120)
+  taskType    String   @default("qa") @map("task_type") @db.VarChar(32)
+  content     String   @db.Text
+  locationName String? @map("location_name") @db.VarChar(120)
+  lat         Decimal? @db.Decimal(10, 6)
+  lng         Decimal? @db.Decimal(10, 6)
+  radius      Int?     @db.UnsignedInt
+  answer      String?  @db.VarChar(255)
+  payload     Json?
+  reward      Json?
+  weight      Int      @default(1) @db.UnsignedInt
+  createdAt   DateTime @default(now()) @map("created_at")
+  event       CityEvent @relation(fields: [eventId], references: [id])
+  assignments UserEventAssignment[]
+
+  @@index([eventId])
+  @@map("event_tasks")
+}
+
+model PlayerRole {
+  id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  code        String   @unique @db.VarChar(32)
+  name        String   @db.VarChar(64)
+  description String   @db.VarChar(255)
+  ability     Json?
+  status      String   @default("active") @db.VarChar(32)
+  createdAt   DateTime @default(now()) @map("created_at")
+  assignments UserEventAssignment[]
+
+  @@index([status])
+  @@map("player_roles")
+}
+
+model UserEventAssignment {
+  id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  userId      BigInt   @map("user_id") @db.UnsignedBigInt
+  eventId     BigInt   @map("event_id") @db.UnsignedBigInt
+  taskId      BigInt   @map("task_id") @db.UnsignedBigInt
+  roleId      BigInt?  @map("role_id") @db.UnsignedBigInt
+  status      String   @default("claimed") @db.VarChar(32)
+  progress    Json?
+  sharePayload Json?   @map("share_payload")
+  createdAt   DateTime @default(now()) @map("created_at")
+  completedAt DateTime? @map("completed_at")
+  user        User     @relation(fields: [userId], references: [id])
+  event       CityEvent @relation(fields: [eventId], references: [id])
+  task        EventTask @relation(fields: [taskId], references: [id])
+  role        PlayerRole? @relation(fields: [roleId], references: [id])
+
+  @@unique([userId, eventId])
+  @@index([eventId, status])
+  @@map("user_event_assignments")
+}
+
+model ClueDrop {
+  id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  city        String   @default("重庆") @db.VarChar(64)
+  title       String   @db.VarChar(120)
+  locationName String  @map("location_name") @db.VarChar(120)
+  partnerName String?  @map("partner_name") @db.VarChar(120)
+  clueType    String   @default("envelope") @map("clue_type") @db.VarChar(32)
+  lat         Decimal? @db.Decimal(10, 6)
+  lng         Decimal? @db.Decimal(10, 6)
+  payload     Json?
+  status      String   @default("draft") @db.VarChar(32)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([city, status])
+  @@map("clue_drops")
+}
+
+model MceTemplate {
+  id           BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  templateType String   @map("template_type") @db.VarChar(32)
+  code         String   @unique @db.VarChar(64)
+  name         String   @db.VarChar(120)
+  audience     String?  @db.VarChar(120)
+  description  String?  @db.Text
+  config       Json?
+  status       String   @default("active") @db.VarChar(32)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([templateType, status])
+  @@map("mce_templates")
+}
+
+model MceCreatorProject {
+  id                     BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  creatorId              BigInt?  @map("creator_id") @db.UnsignedBigInt
+  questId                BigInt?  @map("quest_id") @db.UnsignedBigInt
+  city                   String   @db.VarChar(64)
+  title                  String   @db.VarChar(120)
+  targetAudience         String?  @map("target_audience") @db.VarChar(120)
+  routeTemplateId        BigInt?  @map("route_template_id") @db.UnsignedBigInt
+  storyTemplateId        BigInt?  @map("story_template_id") @db.UnsignedBigInt
+  challengeTemplateIds   Json?    @map("challenge_template_ids")
+  interactionTemplateIds Json?    @map("interaction_template_ids")
+  rewardTemplateIds      Json?    @map("reward_template_ids")
+  experienceRatio        Json?    @map("experience_ratio")
+  status                 String   @default("draft") @db.VarChar(32)
+  createdAt              DateTime @default(now()) @map("created_at")
+  updatedAt              DateTime @updatedAt @map("updated_at")
+
+  @@index([creatorId, status])
+  @@index([city, status])
+  @@map("mce_creator_projects")
+}
