@@ -35,7 +35,7 @@ struct SignatureService {
         let pageRect = CGRect(x: 0, y: 0, width: 612, height: 792)
         let renderer = UIGraphicsPDFRenderer(bounds: pageRect)
 
-        try renderer.writePDF(to: destinationURL) { context in
+        let renderActions: (UIGraphicsPDFRendererContext) -> Void = { context in
             for (index, pageImage) in pageImages.enumerated() {
                 context.beginPage()
 
@@ -63,5 +63,7 @@ struct SignatureService {
                 }
             }
         }
+
+        try renderer.writePDF(to: destinationURL, withActions: renderActions)
     }
 }
