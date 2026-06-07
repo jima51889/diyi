@@ -47,4 +47,6 @@ xcodebuild \
   -archivePath "${ARCHIVE_PATH}" \
   -resultBundlePath "${RESULT_DIR}/CleanScan-Archive.xcresult" \
   CODE_SIGNING_ALLOWED=NO \
+  CODE_SIGNING_REQUIRED=NO \
+  CODE_SIGN_IDENTITY="" \
   archive

@@ -25,15 +25,18 @@ struct SignatureService {
             throw SignatureServiceError.documentHasNoPages
         }
 
+        let pageImages = try imageURLs.map { imageURL in
+            guard let pageImage = UIImage(contentsOfFile: imageURL.path) else {
+                throw SignatureServiceError.imageLoadFailed(imageURL)
+            }
+            return pageImage
+        }
+
         let pageRect = CGRect(x: 0, y: 0, width: 612, height: 792)
         let renderer = UIGraphicsPDFRenderer(bounds: pageRect)
 
         try renderer.writePDF(to: destinationURL) { context in
-            for (index, imageURL) in imageURLs.enumerated() {
-                guard let pageImage = UIImage(contentsOfFile: imageURL.path) else {
-                    throw SignatureServiceError.imageLoadFailed(imageURL)
-                }
-
+            for (index, pageImage) in pageImages.enumerated() {
                 context.beginPage()
 
                 let contentRect = pageRect.insetBy(dx: 24, dy: 24)
