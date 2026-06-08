@@ -20,18 +20,39 @@ struct DocumentDetailView: View {
     var body: some View {
         List {
             if let pdfURL = documentStore.pdfURL(for: document) {
-                Section {
-                    NavigationLink {
-                        PDFPreviewView(url: pdfURL)
-                            .navigationTitle(document.title)
-                            .navigationBarTitleDisplayMode(.inline)
-                    } label: {
-                        Label("Preview PDF", systemImage: "doc.richtext")
-                    }
+                Section("Next Step") {
+                    LazyVGrid(columns: actionColumns, spacing: 12) {
+                        NavigationLink {
+                            PDFPreviewView(url: pdfURL)
+                                .navigationTitle(document.title)
+                                .navigationBarTitleDisplayMode(.inline)
+                        } label: {
+                            ActionTile(title: "Preview", systemImage: "doc.richtext", color: .blue)
+                        }
+                        .buttonStyle(.plain)
 
-                    ShareLink(item: pdfURL) {
-                        Label("Share PDF", systemImage: "square.and.arrow.up")
+                        ShareLink(item: pdfURL) {
+                            ActionTile(title: "Share", systemImage: "square.and.arrow.up", color: .green)
+                        }
+                        .buttonStyle(.plain)
+
+                        Button {
+                            isSignatureCapturePresented = true
+                        } label: {
+                            ActionTile(title: "Sign", systemImage: "signature", color: .purple)
+                        }
+                        .buttonStyle(.plain)
+                        .disabled(isCreatingSignedPDF)
+
+                        Button {
+                            createCompressedPDF()
+                        } label: {
+                            ActionTile(title: "Compress", systemImage: "arrow.down.doc", color: .orange)
+                        }
+                        .buttonStyle(.plain)
+                        .disabled(isCompressing)
                     }
+                    .padding(.vertical, 4)
                 }
             }
 
@@ -52,42 +73,26 @@ struct DocumentDetailView: View {
                 }
             }
 
-            Section("Optimize") {
-                Button {
-                    createCompressedPDF()
-                } label: {
-                    if isCompressing {
-                        HStack {
-                            ProgressView()
-                            Text("Compressing PDF")
-                        }
-                    } else {
-                        Label("Create Compressed PDF", systemImage: "arrow.down.doc")
+            Section("Output") {
+                if isCompressing {
+                    HStack {
+                        ProgressView()
+                        Text("Compressing PDF")
                     }
                 }
-                .disabled(isCompressing)
 
                 if let compressedPDFURL {
                     ShareLink(item: compressedPDFURL) {
                         Label("Share Compressed PDF", systemImage: "square.and.arrow.up")
                     }
                 }
-            }
 
-            Section("Signature") {
-                Button {
-                    isSignatureCapturePresented = true
-                } label: {
-                    if isCreatingSignedPDF {
-                        HStack {
-                            ProgressView()
-                            Text("Creating Signed PDF")
-                        }
-                    } else {
-                        Label("Add Signature", systemImage: "signature")
+                if isCreatingSignedPDF {
+                    HStack {
+                        ProgressView()
+                        Text("Creating Signed PDF")
                     }
                 }
-                .disabled(isCreatingSignedPDF)
 
                 if let signedPDFURL {
                     ShareLink(item: signedPDFURL) {
@@ -167,6 +172,13 @@ struct DocumentDetailView: View {
         }
     }
 
+    private var actionColumns: [GridItem] {
+        [
+            GridItem(.flexible(), spacing: 12),
+            GridItem(.flexible(), spacing: 12)
+        ]
+    }
+
     private func createCompressedPDF() {
         isCompressing = true
 
@@ -191,6 +203,30 @@ struct DocumentDetailView: View {
         Task {
             signedPDFURL = await documentStore.createSignedPDF(for: document, signature: signature)
             isCreatingSignedPDF = false
+        }
+    }
+}
+
+private struct ActionTile: View {
+    let title: String
+    let systemImage: String
+    let color: Color
+
+    var body: some View {
+        VStack(spacing: 8) {
+            Image(systemName: systemImage)
+                .font(.title2.weight(.semibold))
+                .foregroundStyle(color)
+            Text(title)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.primary)
+        }
+        .frame(maxWidth: .infinity, minHeight: 84)
+        .background(Color(.secondarySystemGroupedBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .overlay {
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(.quaternary)
         }
     }
 }

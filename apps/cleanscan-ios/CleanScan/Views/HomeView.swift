@@ -4,6 +4,7 @@ import VisionKit
 
 struct HomeView: View {
     @EnvironmentObject private var documentStore: DocumentStore
+    @State private var navigationPath: [ScannedDocument] = []
     @State private var isScannerPresented = false
     @State private var isSettingsPresented = false
     @State private var isScanEditorPresented = false
@@ -13,7 +14,7 @@ struct HomeView: View {
     @State private var isReceiptsCSVPresented = false
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             Group {
                 if documentStore.documents.isEmpty {
                     VStack(spacing: 18) {
@@ -114,8 +115,12 @@ struct HomeView: View {
             }
             .fullScreenCover(isPresented: $isScanEditorPresented) {
                 PendingScanEditorView(images: pendingScanImages, kind: selectedKind) { images, title in
-                    await documentStore.saveScannedDocument(images: images, kind: selectedKind, title: title)
+                    let document = await documentStore.saveScannedDocument(images: images, kind: selectedKind, title: title)
                     pendingScanImages = []
+
+                    if let document {
+                        navigationPath = [document]
+                    }
                 }
             }
             .sheet(isPresented: $isReceiptsCSVPresented) {

@@ -43,8 +43,8 @@ final class DocumentStore: ObservableObject {
         }
     }
 
-    func saveScannedDocument(images: [UIImage], kind: DocumentKind = .document, title: String? = nil) async {
-        guard !images.isEmpty else { return }
+    func saveScannedDocument(images: [UIImage], kind: DocumentKind = .document, title: String? = nil) async -> ScannedDocument? {
+        guard !images.isEmpty else { return nil }
 
         do {
             try ensureStorageDirectories()
@@ -86,8 +86,10 @@ final class DocumentStore: ObservableObject {
 
             documents.insert(document, at: 0)
             try persistIndex()
+            return document
         } catch {
             lastErrorMessage = error.localizedDescription
+            return nil
         }
     }
 
