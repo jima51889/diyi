@@ -8,16 +8,4 @@ enum AppConfiguration {
     static let privacyPolicyURL = URL(string: "https://jima51889.github.io/diyi/cleanscan/privacy.html")!
     static let termsOfUseURL = URL(string: "https://jima51889.github.io/diyi/cleanscan/terms.html")!
     static let supportURL = URL(string: "https://jima51889.github.io/diyi/cleanscan/support.html")!
-
-    enum ProductID {
-        static let lifetimePro = "cleanscan.pro.lifetime"
-        static let monthlyPro = "cleanscan.pro.monthly"
-        static let yearlyPro = "cleanscan.pro.yearly"
-
-        static let all = [
-            lifetimePro,
-            monthlyPro,
-            yearlyPro
-        ]
-    }
 }

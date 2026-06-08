@@ -76,4 +76,4 @@ No ads. No watermark. No account required.
 
 Avoid claims such as "best", "guaranteed", "AI-powered", or "100% secure".
 
-Do not show paid features in screenshots unless StoreKit products are configured and the purchase flow is ready.
+Do not show paid features in screenshots for this free launch build.

@@ -8,4 +8,4 @@ The app does not require an account. The current build does not include ads, ana
 
 Please test scanning on a physical iPhone. Document scanning may not be available in the iOS Simulator.
 
-No subscription or in-app purchase is required in this build.
+No subscription, purchase, or account is required in this build.

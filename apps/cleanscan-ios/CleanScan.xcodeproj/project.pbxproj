@@ -17,7 +17,6 @@
 		A00000000000000000000008 /* DocumentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000108 /* DocumentDetailView.swift */; };
 		A00000000000000000000009 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000109 /* SettingsView.swift */; };
 		A0000000000000000000000A /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000010A /* AppConfiguration.swift */; };
-		A0000000000000000000000B /* PurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000010B /* PurchaseManager.swift */; };
 		A0000000000000000000000C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000010C /* Assets.xcassets */; };
 		A0000000000000000000000D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000010D /* PrivacyInfo.xcprivacy */; };
 		A0000000000000000000000E /* PendingScanEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000010E /* PendingScanEditorView.swift */; };
@@ -41,7 +40,6 @@
 		A00000000000000000000108 /* DocumentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentDetailView.swift; sourceTree = "<group>"; };
 		A00000000000000000000109 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A0000000000000000000010A /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
-		A0000000000000000000010B /* PurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseManager.swift; sourceTree = "<group>"; };
 		A0000000000000000000010C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A0000000000000000000010D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		A0000000000000000000010E /* PendingScanEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingScanEditorView.swift; sourceTree = "<group>"; };
@@ -81,7 +79,6 @@
 				A00000000000000000000033 /* Models */,
 				A00000000000000000000034 /* Views */,
 				A00000000000000000000035 /* Services */,
-				A00000000000000000000037 /* Store */,
 				A00000000000000000000038 /* Resources */,
 				A00000000000000000000039 /* Utilities */,
 			);
@@ -137,14 +134,6 @@
 				A0000000000000000000010A /* AppConfiguration.swift */,
 			);
 			path = Configuration;
-			sourceTree = "<group>";
-		};
-		A00000000000000000000037 /* Store */ = {
-			isa = PBXGroup;
-			children = (
-				A0000000000000000000010B /* PurchaseManager.swift */,
-			);
-			path = Store;
 			sourceTree = "<group>";
 		};
 		A00000000000000000000038 /* Resources */ = {
@@ -243,7 +232,6 @@
 				A00000000000000000000008 /* DocumentDetailView.swift in Sources */,
 				A00000000000000000000009 /* SettingsView.swift in Sources */,
 				A0000000000000000000000A /* AppConfiguration.swift in Sources */,
-				A0000000000000000000000B /* PurchaseManager.swift in Sources */,
 				A0000000000000000000000E /* PendingScanEditorView.swift in Sources */,
 				A0000000000000000000000F /* OCRService.swift in Sources */,
 				A00000000000000000000011 /* SignatureCaptureView.swift in Sources */,

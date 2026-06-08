@@ -52,7 +52,7 @@ Main flows:
 - Signature placement is currently fixed near the bottom-right of the final page.
 - OCR quality depends on lighting, paper angle, and print clarity.
 - Receipt field detection is basic and should be reviewed before export.
-- StoreKit purchases are not enabled for this first TestFlight build.
+- Purchases are not included in this free TestFlight build.
 
 ## TestFlight Beta App Description
 

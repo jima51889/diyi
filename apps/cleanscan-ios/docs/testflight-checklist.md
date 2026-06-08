@@ -6,7 +6,7 @@
 - Set a real `PRODUCT_BUNDLE_IDENTIFIER`.
 - Set your Apple Developer `DEVELOPMENT_TEAM`.
 - Confirm signing succeeds for a physical iPhone.
-- Create matching in-app purchase products in App Store Connect if paid features stay enabled.
+- Confirm the app remains free and usable without login or purchase.
 
 ## Compile Checks
 
@@ -66,7 +66,7 @@ Do not submit for App Review until:
 - Privacy policy URL is live.
 - Support URL is live.
 - App icon and screenshots are final.
-- StoreKit products are approved, if monetization is enabled.
+- App Store metadata uses calm, accurate wording and does not mention paid features.
 
 ## GitHub TestFlight Secrets
 
