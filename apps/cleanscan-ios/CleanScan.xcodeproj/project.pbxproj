@@ -26,6 +26,7 @@
 		A00000000000000000000013 /* UIImage+PDFLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000113 /* UIImage+PDFLayout.swift */; };
 		A00000000000000000000014 /* ReceiptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000114 /* ReceiptParser.swift */; };
 		A00000000000000000000015 /* ReceiptCSVExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000115 /* ReceiptCSVExporter.swift */; };
+		A00000000000000000000016 /* SignaturePlacementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000116 /* SignaturePlacementView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +50,7 @@
 		A00000000000000000000113 /* UIImage+PDFLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+PDFLayout.swift"; sourceTree = "<group>"; };
 		A00000000000000000000114 /* ReceiptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptParser.swift; sourceTree = "<group>"; };
 		A00000000000000000000115 /* ReceiptCSVExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptCSVExporter.swift; sourceTree = "<group>"; };
+		A00000000000000000000116 /* SignaturePlacementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignaturePlacementView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 				A00000000000000000000109 /* SettingsView.swift */,
 				A0000000000000000000010E /* PendingScanEditorView.swift */,
 				A00000000000000000000111 /* SignatureCaptureView.swift */,
+				A00000000000000000000116 /* SignaturePlacementView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -239,6 +242,7 @@
 				A00000000000000000000013 /* UIImage+PDFLayout.swift in Sources */,
 				A00000000000000000000014 /* ReceiptParser.swift in Sources */,
 				A00000000000000000000015 /* ReceiptCSVExporter.swift in Sources */,
+				A00000000000000000000016 /* SignaturePlacementView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

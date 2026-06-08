@@ -15,10 +15,18 @@ enum SignatureServiceError: LocalizedError {
     }
 }
 
+struct SignaturePlacement {
+    let centerX: CGFloat
+    let centerY: CGFloat
+    let widthRatio: CGFloat
+    let rotationDegrees: CGFloat
+}
+
 struct SignatureService {
     func exportSignedPDF(
         imageURLs: [URL],
         signature: UIImage,
+        placement: SignaturePlacement,
         destinationURL: URL
     ) throws {
         guard !imageURLs.isEmpty else {
@@ -44,26 +52,46 @@ struct SignatureService {
                 pageImage.draw(in: pageDrawRect)
 
                 if index == imageURLs.count - 1 {
-                    let signatureRect = CGRect(
-                        x: pageRect.maxX - 250,
-                        y: pageRect.maxY - 130,
-                        width: 190,
-                        height: 58
+                    drawSignature(
+                        signature,
+                        placement: placement,
+                        in: pageDrawRect,
+                        context: context.cgContext
                     )
-                    signature.draw(in: signature.aspectFitRect(in: signatureRect))
-
-                    let lineRect = CGRect(
-                        x: signatureRect.minX,
-                        y: signatureRect.maxY + 8,
-                        width: signatureRect.width,
-                        height: 1
-                    )
-                    UIColor.black.withAlphaComponent(0.55).setFill()
-                    context.cgContext.fill(lineRect)
                 }
             }
         }
 
         try renderer.writePDF(to: destinationURL, withActions: renderActions)
+    }
+
+    private func drawSignature(
+        _ signature: UIImage,
+        placement: SignaturePlacement,
+        in pageDrawRect: CGRect,
+        context: CGContext
+    ) {
+        let signatureWidth = pageDrawRect.width * min(max(placement.widthRatio, 0.08), 0.9)
+        let aspectRatio = max(signature.size.width, 1) / max(signature.size.height, 1)
+        let signatureHeight = signatureWidth / aspectRatio
+        let center = CGPoint(
+            x: pageDrawRect.minX + pageDrawRect.width * min(max(placement.centerX, 0), 1),
+            y: pageDrawRect.minY + pageDrawRect.height * min(max(placement.centerY, 0), 1)
+        )
+
+        context.saveGState()
+        context.translateBy(x: center.x, y: center.y)
+        context.rotate(by: placement.rotationDegrees * .pi / 180)
+
+        signature.draw(
+            in: CGRect(
+                x: -signatureWidth / 2,
+                y: -signatureHeight / 2,
+                width: signatureWidth,
+                height: signatureHeight
+            )
+        )
+
+        context.restoreGState()
     }
 }

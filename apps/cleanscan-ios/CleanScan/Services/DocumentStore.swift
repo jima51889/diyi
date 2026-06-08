@@ -172,7 +172,7 @@ final class DocumentStore: ObservableObject {
         }
     }
 
-    func createSignedPDF(for document: ScannedDocument, signature: UIImage) async -> URL? {
+    func createSignedPDF(for document: ScannedDocument, signature: UIImage, placement: SignaturePlacement) async -> URL? {
         do {
             let imageURLs = imageURLs(for: document)
             let documentDirectory = documentsDirectory.appendingPathComponent(document.id.uuidString, isDirectory: true)
@@ -181,6 +181,7 @@ final class DocumentStore: ObservableObject {
             try signatureService.exportSignedPDF(
                 imageURLs: imageURLs,
                 signature: signature,
+                placement: placement,
                 destinationURL: signedURL
             )
 
