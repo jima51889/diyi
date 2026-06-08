@@ -55,7 +55,7 @@ struct SignaturePlacementView: View {
                         .simultaneousGesture(scaleGesture)
                         .simultaneousGesture(rotationGesture)
 
-                    VStack {
+                    VStack(spacing: 10) {
                         Spacer()
                         Text("Drag to move. Pinch to resize. Rotate with two fingers.")
                             .font(.footnote)
@@ -64,7 +64,30 @@ struct SignaturePlacementView: View {
                             .padding(.vertical, 10)
                             .background(.thinMaterial)
                             .clipShape(Capsule())
-                            .padding(.bottom, 18)
+
+                        VStack(spacing: 12) {
+                            HStack {
+                                Text("Size")
+                                    .font(.footnote.weight(.semibold))
+                                Slider(value: $widthRatio, in: 0.12...0.82)
+                            }
+
+                            HStack {
+                                Text("Rotate")
+                                    .font(.footnote.weight(.semibold))
+                                Slider(value: $rotationDegrees, in: -45...45)
+                                Button("Reset") {
+                                    rotationDegrees = 0
+                                    rotationStart = 0
+                                }
+                                .font(.footnote.weight(.semibold))
+                            }
+                        }
+                        .padding(14)
+                        .background(.thinMaterial)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 14)
                     }
                     .frame(maxWidth: .infinity)
                 }

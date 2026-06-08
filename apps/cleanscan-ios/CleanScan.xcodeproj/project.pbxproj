@@ -27,6 +27,7 @@
 		A00000000000000000000014 /* ReceiptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000114 /* ReceiptParser.swift */; };
 		A00000000000000000000015 /* ReceiptCSVExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000115 /* ReceiptCSVExporter.swift */; };
 		A00000000000000000000016 /* SignaturePlacementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000116 /* SignaturePlacementView.swift */; };
+		A00000000000000000000017 /* PhotoCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000117 /* PhotoCaptureView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		A00000000000000000000114 /* ReceiptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptParser.swift; sourceTree = "<group>"; };
 		A00000000000000000000115 /* ReceiptCSVExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptCSVExporter.swift; sourceTree = "<group>"; };
 		A00000000000000000000116 /* SignaturePlacementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignaturePlacementView.swift; sourceTree = "<group>"; };
+		A00000000000000000000117 /* PhotoCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 				A0000000000000000000010E /* PendingScanEditorView.swift */,
 				A00000000000000000000111 /* SignatureCaptureView.swift */,
 				A00000000000000000000116 /* SignaturePlacementView.swift */,
+				A00000000000000000000117 /* PhotoCaptureView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -243,6 +246,7 @@
 				A00000000000000000000014 /* ReceiptParser.swift in Sources */,
 				A00000000000000000000015 /* ReceiptCSVExporter.swift in Sources */,
 				A00000000000000000000016 /* SignaturePlacementView.swift in Sources */,
+				A00000000000000000000017 /* PhotoCaptureView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,6 +379,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "CleanScan uses the camera to scan documents into PDFs.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "CleanScan can import a photo as a document page when camera capture is not available.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -408,6 +413,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "CleanScan uses the camera to scan documents into PDFs.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "CleanScan can import a photo as a document page when camera capture is not available.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

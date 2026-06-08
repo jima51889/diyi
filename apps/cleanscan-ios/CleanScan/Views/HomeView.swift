@@ -6,6 +6,7 @@ struct HomeView: View {
     @EnvironmentObject private var documentStore: DocumentStore
     @State private var navigationPath: [ScannedDocument] = []
     @State private var isScannerPresented = false
+    @State private var isPhotoCapturePresented = false
     @State private var isSettingsPresented = false
     @State private var isScanEditorPresented = false
     @State private var pendingScanImages: [UIImage] = []
@@ -76,18 +77,38 @@ struct HomeView: View {
                 }
 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        startScanning()
+                    Menu {
+                        Button {
+                            startScanning()
+                        } label: {
+                            Label("Scan Document", systemImage: "doc.viewfinder")
+                        }
+
+                        Button {
+                            startPhotoCapture()
+                        } label: {
+                            Label("Take Photo", systemImage: "camera")
+                        }
                     } label: {
-                        Label("Scan", systemImage: "plus.viewfinder")
+                        Label("Add", systemImage: "plus.circle")
                     }
                 }
             }
             .safeAreaInset(edge: .bottom) {
-                Button {
-                    startScanning()
+                Menu {
+                    Button {
+                        startScanning()
+                    } label: {
+                        Label("Scan Document", systemImage: "doc.viewfinder")
+                    }
+
+                    Button {
+                        startPhotoCapture()
+                    } label: {
+                        Label("Take Photo", systemImage: "camera")
+                    }
                 } label: {
-                    Label("Scan Document", systemImage: "doc.viewfinder")
+                    Label("Add Document", systemImage: "plus.viewfinder")
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                 }
@@ -115,6 +136,19 @@ struct HomeView: View {
                     onError: { error in
                         isScannerPresented = false
                         documentStore.lastErrorMessage = error.localizedDescription
+                    }
+                )
+                .ignoresSafeArea()
+            }
+            .sheet(isPresented: $isPhotoCapturePresented) {
+                PhotoCaptureView(
+                    onPhotoCaptured: { image in
+                        isPhotoCapturePresented = false
+                        pendingScanImages = [image]
+                        isScanEditorPresented = true
+                    },
+                    onCancel: {
+                        isPhotoCapturePresented = false
                     }
                 )
                 .ignoresSafeArea()
@@ -157,6 +191,10 @@ struct HomeView: View {
         } else {
             documentStore.lastErrorMessage = "Document scanning is not available on this device."
         }
+    }
+
+    private func startPhotoCapture() {
+        isPhotoCapturePresented = true
     }
 
     private var modePicker: some View {
