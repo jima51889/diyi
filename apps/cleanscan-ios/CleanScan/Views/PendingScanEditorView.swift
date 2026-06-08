@@ -7,10 +7,12 @@ struct PendingScanEditorView: View {
     @State private var pages: [ScanPageDraft]
     @State private var isSaving = false
 
+    let kind: DocumentKind
     let onSave: ([UIImage]) async -> Void
 
-    init(images: [UIImage], onSave: @escaping ([UIImage]) async -> Void) {
+    init(images: [UIImage], kind: DocumentKind, onSave: @escaping ([UIImage]) async -> Void) {
         _pages = State(initialValue: images.map { ScanPageDraft(image: $0) })
+        self.kind = kind
         self.onSave = onSave
     }
 
@@ -58,7 +60,7 @@ struct PendingScanEditorView: View {
                     }
                 }
             }
-            .navigationTitle("Review Scan")
+            .navigationTitle(kind == .receipt ? "Review Receipt" : "Review Scan")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {

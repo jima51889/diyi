@@ -2,7 +2,7 @@
 
 ## Primary Positioning
 
-Private PDF scanner for students and freelancers.
+Private PDF and receipt scanner for students and freelancers.
 
 ## Main Search Phrases
 
@@ -24,6 +24,8 @@ Best angle:
 
 CleanScan helps people scan, review, sign, compress, and share PDFs without ads, watermarks, or accounts.
 
+Receipt Mode gives the app a clearer freelancer use case without making claims about tax filing or accounting compliance.
+
 ## Avoid
 
 - Overusing "AI"
@@ -31,7 +33,7 @@ CleanScan helps people scan, review, sign, compress, and share PDFs without ads,
 - Claiming guaranteed OCR accuracy
 - Claiming secure cloud storage
 - Comparing directly with Adobe, CamScanner, or Scanner Pro
-- Mentioning Receipt Mode until it is implemented
+- Claiming tax compliance
 
 ## Launch Countries
 

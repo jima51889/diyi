@@ -35,6 +35,23 @@ struct DocumentDetailView: View {
                 }
             }
 
+            if document.kind == .receipt {
+                Section("Receipt") {
+                    ReceiptField(label: "Merchant", value: document.receiptInfo?.merchant ?? "Not detected")
+                    ReceiptField(label: "Date", value: document.receiptInfo?.dateText ?? "Not detected")
+                    ReceiptField(label: "Total", value: document.receiptInfo?.totalText ?? "Not detected")
+                    ReceiptField(label: "Category", value: document.receiptInfo?.category ?? "Uncategorized")
+
+                    if let rawText = document.receiptInfo?.rawText, !rawText.isEmpty {
+                        NavigationLink {
+                            RecognizedTextView(text: rawText, title: document.title)
+                        } label: {
+                            Label("View Receipt OCR Text", systemImage: "doc.text.magnifyingglass")
+                        }
+                    }
+                }
+            }
+
             Section("Optimize") {
                 Button {
                     createCompressedPDF()
@@ -196,6 +213,21 @@ private struct PageThumbnail: View {
             RoundedRectangle(cornerRadius: 6)
                 .fill(.quaternary)
                 .frame(width: 54, height: 72)
+        }
+    }
+}
+
+private struct ReceiptField: View {
+    let label: String
+    let value: String
+
+    var body: some View {
+        HStack {
+            Text(label)
+            Spacer()
+            Text(value)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.trailing)
         }
     }
 }

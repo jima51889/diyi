@@ -2,11 +2,12 @@ import Foundation
 
 enum AppConfiguration {
     static let appName = "CleanScan"
-    static let bundleIdentifier = "com.cleanscan.app"
-    static let supportEmail = "support@cleanscan.app"
+    static let bundleIdentifier = "com.jima51889.cleanscan.dev"
+    static let supportEmail = "jima51889@gmail.com"
 
-    static let privacyPolicyURL = URL(string: "https://cleanscan.app/privacy")!
-    static let termsOfUseURL = URL(string: "https://cleanscan.app/terms")!
+    static let privacyPolicyURL = URL(string: "https://jima51889.github.io/diyi/cleanscan/privacy.html")!
+    static let termsOfUseURL = URL(string: "https://jima51889.github.io/diyi/cleanscan/terms.html")!
+    static let supportURL = URL(string: "https://jima51889.github.io/diyi/cleanscan/support.html")!
 
     enum ProductID {
         static let lifetimePro = "cleanscan.pro.lifetime"

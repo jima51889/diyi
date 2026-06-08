@@ -25,6 +25,8 @@
 		A00000000000000000000011 /* SignatureCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000111 /* SignatureCaptureView.swift */; };
 		A00000000000000000000012 /* SignatureService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000112 /* SignatureService.swift */; };
 		A00000000000000000000013 /* UIImage+PDFLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000113 /* UIImage+PDFLayout.swift */; };
+		A00000000000000000000014 /* ReceiptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000114 /* ReceiptParser.swift */; };
+		A00000000000000000000015 /* ReceiptCSVExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000115 /* ReceiptCSVExporter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +49,8 @@
 		A00000000000000000000111 /* SignatureCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureCaptureView.swift; sourceTree = "<group>"; };
 		A00000000000000000000112 /* SignatureService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureService.swift; sourceTree = "<group>"; };
 		A00000000000000000000113 /* UIImage+PDFLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+PDFLayout.swift"; sourceTree = "<group>"; };
+		A00000000000000000000114 /* ReceiptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptParser.swift; sourceTree = "<group>"; };
+		A00000000000000000000115 /* ReceiptCSVExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptCSVExporter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +125,8 @@
 				A00000000000000000000103 /* PDFExportService.swift */,
 				A0000000000000000000010F /* OCRService.swift */,
 				A00000000000000000000112 /* SignatureService.swift */,
+				A00000000000000000000114 /* ReceiptParser.swift */,
+				A00000000000000000000115 /* ReceiptCSVExporter.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -243,6 +249,8 @@
 				A00000000000000000000011 /* SignatureCaptureView.swift in Sources */,
 				A00000000000000000000012 /* SignatureService.swift in Sources */,
 				A00000000000000000000013 /* UIImage+PDFLayout.swift in Sources */,
+				A00000000000000000000014 /* ReceiptParser.swift in Sources */,
+				A00000000000000000000015 /* ReceiptCSVExporter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,7 +394,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.cleanscan.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jima51889.cleanscan.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -419,7 +427,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.cleanscan.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jima51889.cleanscan.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

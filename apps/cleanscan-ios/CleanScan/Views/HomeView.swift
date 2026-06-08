@@ -8,18 +8,30 @@ struct HomeView: View {
     @State private var isSettingsPresented = false
     @State private var isScanEditorPresented = false
     @State private var pendingScanImages: [UIImage] = []
+    @State private var selectedKind: DocumentKind = .document
+    @State private var receiptsCSVURL: URL?
+    @State private var isReceiptsCSVPresented = false
 
     var body: some View {
         NavigationStack {
             Group {
                 if documentStore.documents.isEmpty {
-                    ContentUnavailableView(
-                        "Scan your first document",
-                        systemImage: "doc.viewfinder",
-                        description: Text("Create clean PDFs from paper documents, notes, receipts, and IDs.")
-                    )
+                    VStack(spacing: 18) {
+                        modePicker
+                        ContentUnavailableView(
+                            "Scan your first document",
+                            systemImage: "doc.viewfinder",
+                            description: Text("Create clean PDFs from paper documents, notes, receipts, and IDs.")
+                        )
+                    }
+                    .padding(.horizontal)
                 } else {
                     List {
+                        Section {
+                            modePicker
+                                .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                        }
+
                         ForEach(documentStore.documents) { document in
                             NavigationLink(value: document) {
                                 DocumentRow(document: document)
@@ -41,10 +53,24 @@ struct HomeView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        isSettingsPresented = true
+                    Menu {
+                        Button {
+                            isSettingsPresented = true
+                        } label: {
+                            Label("Settings", systemImage: "gearshape")
+                        }
+
+                        Button {
+                            Task {
+                                receiptsCSVURL = await documentStore.exportReceiptsCSV()
+                                isReceiptsCSVPresented = receiptsCSVURL != nil
+                            }
+                        } label: {
+                            Label("Export Receipts CSV", systemImage: "tablecells")
+                        }
+                        .disabled(!documentStore.documents.contains { $0.kind == .receipt })
                     } label: {
-                        Label("Settings", systemImage: "gearshape")
+                        Label("More", systemImage: "ellipsis.circle")
                     }
                 }
 
@@ -87,9 +113,14 @@ struct HomeView: View {
                 SettingsView()
             }
             .fullScreenCover(isPresented: $isScanEditorPresented) {
-                PendingScanEditorView(images: pendingScanImages) { images in
-                    await documentStore.saveScannedDocument(images: images)
+                PendingScanEditorView(images: pendingScanImages, kind: selectedKind) { images in
+                    await documentStore.saveScannedDocument(images: images, kind: selectedKind)
                     pendingScanImages = []
+                }
+            }
+            .sheet(isPresented: $isReceiptsCSVPresented) {
+                if let receiptsCSVURL {
+                    ShareSheetURLView(url: receiptsCSVURL)
                 }
             }
             .alert(
@@ -113,19 +144,62 @@ struct HomeView: View {
             documentStore.lastErrorMessage = "Document scanning is not available on this device."
         }
     }
+
+    private var modePicker: some View {
+        Picker("Scan Mode", selection: $selectedKind) {
+            ForEach(DocumentKind.allCases) { kind in
+                Label(kind.label, systemImage: kind.systemImage)
+                    .tag(kind)
+            }
+        }
+        .pickerStyle(.segmented)
+    }
 }
 
 private struct DocumentRow: View {
     let document: ScannedDocument
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(document.title)
-                .font(.headline)
-            Text("\(document.pageImagePaths.count) pages")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+        HStack(spacing: 12) {
+            Image(systemName: document.kind.systemImage)
+                .foregroundStyle(document.kind == .receipt ? .green : .blue)
+                .frame(width: 28)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(document.title)
+                    .font(.headline)
+                Text(metadata)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
         }
         .padding(.vertical, 6)
+    }
+
+    private var metadata: String {
+        if document.kind == .receipt {
+            let total = document.receiptInfo?.totalText ?? "No total"
+            let date = document.receiptInfo?.dateText ?? "No date"
+            return "\(total) · \(date)"
+        }
+
+        return "\(document.pageImagePaths.count) pages"
+    }
+}
+
+private struct ShareSheetURLView: View {
+    let url: URL
+
+    var body: some View {
+        NavigationStack {
+            List {
+                Section {
+                    ShareLink(item: url) {
+                        Label("Share Receipts CSV", systemImage: "square.and.arrow.up")
+                    }
+                }
+            }
+            .navigationTitle("Receipts Export")
+        }
     }
 }

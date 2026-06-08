@@ -10,17 +10,23 @@ final class DocumentStore: ObservableObject {
     private let pdfExportService: PDFExportService
     private let ocrService: OCRService
     private let signatureService: SignatureService
+    private let receiptParser: ReceiptParser
+    private let receiptCSVExporter: ReceiptCSVExporter
 
     init(
         fileManager: FileManager = .default,
         pdfExportService: PDFExportService = PDFExportService(),
         ocrService: OCRService = OCRService(),
-        signatureService: SignatureService = SignatureService()
+        signatureService: SignatureService = SignatureService(),
+        receiptParser: ReceiptParser = ReceiptParser(),
+        receiptCSVExporter: ReceiptCSVExporter = ReceiptCSVExporter()
     ) {
         self.fileManager = fileManager
         self.pdfExportService = pdfExportService
         self.ocrService = ocrService
         self.signatureService = signatureService
+        self.receiptParser = receiptParser
+        self.receiptCSVExporter = receiptCSVExporter
     }
 
     func load() async {
@@ -37,7 +43,7 @@ final class DocumentStore: ObservableObject {
         }
     }
 
-    func saveScannedDocument(images: [UIImage]) async {
+    func saveScannedDocument(images: [UIImage], kind: DocumentKind = .document) async {
         guard !images.isEmpty else { return }
 
         do {
@@ -64,13 +70,18 @@ final class DocumentStore: ObservableObject {
                 options: .standard
             )
 
+            let receiptInfo = try await receiptInfoIfNeeded(kind: kind, imagePaths: imagePaths)
+            let defaultTitle = defaultTitle(kind: kind, date: now, receiptInfo: receiptInfo)
+
             let document = ScannedDocument(
                 id: id,
-                title: "Scan \(Self.titleFormatter.string(from: now))",
+                title: defaultTitle,
                 createdAt: now,
                 updatedAt: now,
+                kind: kind,
                 pageImagePaths: imagePaths,
-                pdfPath: pdfURL.path
+                pdfPath: pdfURL.path,
+                receiptInfo: receiptInfo
             )
 
             documents.insert(document, at: 0)
@@ -175,6 +186,40 @@ final class DocumentStore: ObservableObject {
         } catch {
             lastErrorMessage = error.localizedDescription
             return nil
+        }
+    }
+
+    func exportReceiptsCSV() async -> URL? {
+        do {
+            let exportURL = appSupportDirectory.appendingPathComponent("receipts.csv")
+            try receiptCSVExporter.export(documents: documents, to: exportURL)
+            return exportURL
+        } catch {
+            lastErrorMessage = error.localizedDescription
+            return nil
+        }
+    }
+
+    private func receiptInfoIfNeeded(kind: DocumentKind, imagePaths: [String]) async throws -> ReceiptInfo? {
+        guard kind == .receipt else { return nil }
+
+        let text = try await ocrService.recognizeText(
+            from: imagePaths.map(URL.init(fileURLWithPath:))
+        )
+        return receiptParser.parse(text: text)
+    }
+
+    private func defaultTitle(kind: DocumentKind, date: Date, receiptInfo: ReceiptInfo?) -> String {
+        let dateText = Self.titleFormatter.string(from: date)
+
+        switch kind {
+        case .document:
+            return "Scan \(dateText)"
+        case .receipt:
+            if let merchant = receiptInfo?.merchant, !merchant.isEmpty {
+                return "\(merchant) Receipt"
+            }
+            return "Receipt \(dateText)"
         }
     }
 

@@ -6,11 +6,11 @@ Use short captions. Keep the screenshots focused on actual app screens.
 
 Title:
 
-Scan Paper Into PDFs
+Scan Documents and Receipts
 
 Subtitle:
 
-Keep contracts, notes, receipts, and forms in one clean document list.
+Choose Document or Receipt mode before scanning.
 
 ## Screenshot 2: Scanner
 
@@ -42,7 +42,17 @@ Subtitle:
 
 Recognize text, add a handwritten signature, or create a smaller PDF.
 
-## Screenshot 5: PDF Preview
+## Screenshot 5: Receipts
+
+Title:
+
+Export Receipt Records
+
+Subtitle:
+
+Save basic receipt details and share them as CSV.
+
+## Screenshot 6: PDF Preview
 
 Title:
 
@@ -52,7 +62,7 @@ Subtitle:
 
 Check the PDF and send it through Mail, Files, Messages, or other apps.
 
-## Screenshot 6: Privacy
+## Screenshot 7: Privacy
 
 Title:
 
