@@ -5,13 +5,15 @@ struct PendingScanEditorView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var pages: [ScanPageDraft]
+    @State private var title: String
     @State private var isSaving = false
 
     let kind: DocumentKind
-    let onSave: ([UIImage]) async -> Void
+    let onSave: ([UIImage], String) async -> Void
 
-    init(images: [UIImage], kind: DocumentKind, onSave: @escaping ([UIImage]) async -> Void) {
+    init(images: [UIImage], kind: DocumentKind, onSave: @escaping ([UIImage], String) async -> Void) {
         _pages = State(initialValue: images.map { ScanPageDraft(image: $0) })
+        _title = State(initialValue: Self.defaultTitle(kind: kind))
         self.kind = kind
         self.onSave = onSave
     }
@@ -27,6 +29,16 @@ struct PendingScanEditorView: View {
                     )
                 } else {
                     List {
+                        Section {
+                            TextField("File name", text: $title)
+                                .textInputAutocapitalization(.words)
+                                .submitLabel(.done)
+                        } header: {
+                            Text("Name")
+                        } footer: {
+                            Text("Use a clear name now so the PDF is easy to find later.")
+                        }
+
                         ForEach(Array(pages.enumerated()), id: \.element.id) { index, page in
                             HStack(spacing: 14) {
                                 Image(uiImage: page.image)
@@ -87,22 +99,40 @@ struct PendingScanEditorView: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
-                    .disabled(pages.isEmpty || isSaving)
+                    .disabled(pages.isEmpty || trimmedTitle.isEmpty || isSaving)
                 }
             }
         }
     }
 
     private func save() {
+        let documentTitle = trimmedTitle
+        guard !documentTitle.isEmpty else { return }
+
         isSaving = true
         let images = pages.map(\.image)
 
         Task {
-            await onSave(images)
+            await onSave(images, documentTitle)
             isSaving = false
             dismiss()
         }
     }
+
+    private var trimmedTitle: String {
+        title.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    private static func defaultTitle(kind: DocumentKind) -> String {
+        let dateText = titleFormatter.string(from: Date())
+        return kind == .receipt ? "Receipt \(dateText)" : "Scan \(dateText)"
+    }
+
+    private static let titleFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH.mm"
+        return formatter
+    }()
 }
 
 private struct ScanPageDraft: Identifiable {

@@ -113,8 +113,8 @@ struct HomeView: View {
                 SettingsView()
             }
             .fullScreenCover(isPresented: $isScanEditorPresented) {
-                PendingScanEditorView(images: pendingScanImages, kind: selectedKind) { images in
-                    await documentStore.saveScannedDocument(images: images, kind: selectedKind)
+                PendingScanEditorView(images: pendingScanImages, kind: selectedKind) { images, title in
+                    await documentStore.saveScannedDocument(images: images, kind: selectedKind, title: title)
                     pendingScanImages = []
                 }
             }

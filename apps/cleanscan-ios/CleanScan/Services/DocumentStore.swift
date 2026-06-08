@@ -43,7 +43,7 @@ final class DocumentStore: ObservableObject {
         }
     }
 
-    func saveScannedDocument(images: [UIImage], kind: DocumentKind = .document) async {
+    func saveScannedDocument(images: [UIImage], kind: DocumentKind = .document, title: String? = nil) async {
         guard !images.isEmpty else { return }
 
         do {
@@ -71,11 +71,11 @@ final class DocumentStore: ObservableObject {
             )
 
             let receiptInfo = try await receiptInfoIfNeeded(kind: kind, imagePaths: imagePaths)
-            let defaultTitle = defaultTitle(kind: kind, date: now, receiptInfo: receiptInfo)
+            let documentTitle = normalizedTitle(title) ?? defaultTitle(kind: kind, date: now, receiptInfo: receiptInfo)
 
             let document = ScannedDocument(
                 id: id,
-                title: defaultTitle,
+                title: documentTitle,
                 createdAt: now,
                 updatedAt: now,
                 kind: kind,
@@ -221,6 +221,12 @@ final class DocumentStore: ObservableObject {
             }
             return "Receipt \(dateText)"
         }
+    }
+
+    private func normalizedTitle(_ title: String?) -> String? {
+        guard let title else { return nil }
+        let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmedTitle.isEmpty ? nil : trimmedTitle
     }
 
     private func persistIndex() throws {
