@@ -1,5 +1,14 @@
 # CleanScan App Store Metadata Draft
 
+For the cleaner US launch package, use:
+
+```text
+apps/cleanscan-ios/store-assets/us/app-store-listing.md
+apps/cleanscan-ios/store-assets/us/screenshot-copy.md
+apps/cleanscan-ios/store-assets/us/testflight-notes.md
+apps/cleanscan-ios/store-assets/us/aso-notes.md
+```
+
 ## App Name
 
 CleanScan
