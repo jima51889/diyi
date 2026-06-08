@@ -99,12 +99,21 @@ struct HomeView: View {
             .sheet(isPresented: $isScannerPresented) {
                 ScannerView(
                     onScanComplete: { images in
-                        pendingScanImages = images
                         isScannerPresented = false
+
+                        guard !images.isEmpty else {
+                            documentStore.lastErrorMessage = "No pages were captured. Please scan again and confirm at least one page before saving."
+                            return
+                        }
+
+                        pendingScanImages = images
                         isScanEditorPresented = true
                     },
-                    onCancel: {},
+                    onCancel: {
+                        isScannerPresented = false
+                    },
                     onError: { error in
+                        isScannerPresented = false
                         documentStore.lastErrorMessage = error.localizedDescription
                     }
                 )
