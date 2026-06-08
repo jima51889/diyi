@@ -15,6 +15,7 @@ struct DocumentDetailView: View {
     @State private var isRecognizingText = false
     @State private var isSignatureCapturePresented = false
     @State private var signedPDFURL: URL?
+    @State private var isSignedPDFPreviewPresented = false
     @State private var isCreatingSignedPDF = false
 
     var body: some View {
@@ -170,6 +171,28 @@ struct DocumentDetailView: View {
                 createSignedPDF(signature: signature)
             }
         }
+        .sheet(isPresented: $isSignedPDFPreviewPresented) {
+            if let signedPDFURL {
+                NavigationStack {
+                    PDFPreviewView(url: signedPDFURL)
+                        .navigationTitle("Signed PDF")
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbar {
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button("Done") {
+                                    isSignedPDFPreviewPresented = false
+                                }
+                            }
+
+                            ToolbarItem(placement: .topBarTrailing) {
+                                ShareLink(item: signedPDFURL) {
+                                    Label("Share", systemImage: "square.and.arrow.up")
+                                }
+                            }
+                        }
+                }
+            }
+        }
     }
 
     private var actionColumns: [GridItem] {
@@ -201,8 +224,13 @@ struct DocumentDetailView: View {
         isCreatingSignedPDF = true
 
         Task {
-            signedPDFURL = await documentStore.createSignedPDF(for: document, signature: signature)
+            let url = await documentStore.createSignedPDF(for: document, signature: signature)
+            signedPDFURL = url
             isCreatingSignedPDF = false
+
+            if url != nil {
+                isSignedPDFPreviewPresented = true
+            }
         }
     }
 }

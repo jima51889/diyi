@@ -5,6 +5,7 @@ import UIKit
 struct SignatureCaptureView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var canvasView = PKCanvasView()
+    @State private var isEmptySignatureAlertPresented = false
 
     let onSave: (UIImage) -> Void
 
@@ -33,6 +34,11 @@ struct SignatureCaptureView: View {
             .background(Color(.systemGroupedBackground))
             .navigationTitle("Add Signature")
             .navigationBarTitleDisplayMode(.inline)
+            .alert("Add a signature first", isPresented: $isEmptySignatureAlertPresented) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text("Write your signature in the box before saving.")
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Cancel", role: .cancel) {
@@ -58,7 +64,13 @@ struct SignatureCaptureView: View {
     }
 
     private func saveSignature() {
-        let bounds = canvasView.bounds
+        let drawingBounds = canvasView.drawing.bounds
+        guard !drawingBounds.isEmpty, !drawingBounds.isNull else {
+            isEmptySignatureAlertPresented = true
+            return
+        }
+
+        let bounds = drawingBounds.insetBy(dx: -24, dy: -24)
         let image = canvasView.drawing.image(from: bounds, scale: UIScreen.main.scale)
         onSave(image)
         dismiss()
