@@ -3,6 +3,7 @@ import UIKit
 
 struct PendingScanEditorView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.editMode) private var editMode
 
     @State private var pages: [ScanPageDraft]
     @State private var title: String
@@ -82,7 +83,11 @@ struct PendingScanEditorView: View {
                 }
 
                 ToolbarItem(placement: .topBarTrailing) {
-                    EditButton()
+                    Button(isEditing ? "完成" : "编辑") {
+                        withAnimation {
+                            editMode?.wrappedValue = isEditing ? .inactive : .active
+                        }
+                    }
                 }
 
                 ToolbarItem(placement: .bottomBar) {
@@ -117,6 +122,10 @@ struct PendingScanEditorView: View {
             isSaving = false
             dismiss()
         }
+    }
+
+    private var isEditing: Bool {
+        editMode?.wrappedValue.isEditing == true
     }
 
     private var trimmedTitle: String {

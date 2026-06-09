@@ -73,7 +73,6 @@ struct SignatureCaptureView: View {
         let bounds = drawingBounds.insetBy(dx: -24, dy: -24)
         let image = canvasView.drawing.image(from: bounds, scale: UIScreen.main.scale)
         onSave(image)
-        dismiss()
     }
 }
 

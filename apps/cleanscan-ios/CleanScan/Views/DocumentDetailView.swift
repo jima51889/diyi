@@ -14,8 +14,6 @@ struct DocumentDetailView: View {
     @State private var recognizedText: String?
     @State private var isRecognizingText = false
     @State private var isSignatureCapturePresented = false
-    @State private var isSignaturePlacementPresented = false
-    @State private var pendingSignature: UIImage?
     @State private var signedPDFURL: URL?
     @State private var isSignedPDFPreviewPresented = false
     @State private var isCreatingSignedPDF = false
@@ -169,19 +167,10 @@ struct DocumentDetailView: View {
             }
         }
         .sheet(isPresented: $isSignatureCapturePresented) {
-            SignatureCaptureView { signature in
-                pendingSignature = signature
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                    isSignaturePlacementPresented = true
-                }
-            }
-        }
-        .fullScreenCover(isPresented: $isSignaturePlacementPresented) {
-            if let pendingSignature, let lastPageURL = documentStore.imageURLs(for: document).last,
+            if let lastPageURL = documentStore.imageURLs(for: document).last,
                let pageImage = UIImage(contentsOfFile: lastPageURL.path) {
-                SignaturePlacementView(pageImage: pageImage, signature: pendingSignature) { placement in
-                    createSignedPDF(signature: pendingSignature, placement: placement)
+                SignatureWorkflowView(pageImage: pageImage) { signature, placement in
+                    createSignedPDF(signature: signature, placement: placement)
                 }
             } else {
                 NavigationStack {
@@ -193,7 +182,7 @@ struct DocumentDetailView: View {
                     .toolbar {
                         ToolbarItem(placement: .topBarLeading) {
                             Button("Done") {
-                                isSignaturePlacementPresented = false
+                                isSignatureCapturePresented = false
                             }
                         }
                     }
@@ -255,7 +244,6 @@ struct DocumentDetailView: View {
         Task {
             let url = await documentStore.createSignedPDF(for: document, signature: signature, placement: placement)
             signedPDFURL = url
-            pendingSignature = nil
             isCreatingSignedPDF = false
 
             if url != nil {

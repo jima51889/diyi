@@ -46,6 +46,8 @@ struct SignatureService {
         let renderActions: (UIGraphicsPDFRendererContext) -> Void = { context in
             for (index, pageImage) in pageImages.enumerated() {
                 context.beginPage()
+                UIColor.white.setFill()
+                context.cgContext.fill(pageRect)
 
                 let contentRect = pageRect.insetBy(dx: 24, dy: 24)
                 let pageDrawRect = pageImage.aspectFitRect(in: contentRect)

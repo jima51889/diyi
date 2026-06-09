@@ -44,6 +44,8 @@ struct PDFExportService {
                     context.beginPage()
                     let exportImage = image.preparingForPDFExport(options: options)
                     let drawRect = exportImage.aspectFitRect(in: pageRect.insetBy(dx: 24, dy: 24))
+                    UIColor.white.setFill()
+                    context.cgContext.fill(pageRect)
                     exportImage.draw(in: drawRect)
                 }
             }
@@ -70,7 +72,7 @@ struct PDFExportOptions {
 
 private extension UIImage {
     func preparingForPDFExport(options: PDFExportOptions) -> UIImage {
-        let resized = resized(maxPixelDimension: options.maxPixelDimension)
+        let resized = normalizedForPDF().resized(maxPixelDimension: options.maxPixelDimension)
 
         guard let data = resized.jpegData(compressionQuality: options.jpegCompressionQuality),
               let compressed = UIImage(data: data) else {
@@ -78,6 +80,18 @@ private extension UIImage {
         }
 
         return compressed
+    }
+
+    func normalizedForPDF() -> UIImage {
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        format.opaque = true
+
+        return UIGraphicsImageRenderer(size: size, format: format).image { _ in
+            UIColor.white.setFill()
+            UIBezierPath(rect: CGRect(origin: .zero, size: size)).fill()
+            draw(in: CGRect(origin: .zero, size: size))
+        }
     }
 
     func resized(maxPixelDimension: CGFloat) -> UIImage {
@@ -88,9 +102,14 @@ private extension UIImage {
 
         let scale = maxPixelDimension / largestDimension
         let targetSize = CGSize(width: size.width * scale, height: size.height * scale)
-        let renderer = UIGraphicsImageRenderer(size: targetSize)
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        format.opaque = true
+        let renderer = UIGraphicsImageRenderer(size: targetSize, format: format)
 
-        return renderer.image { _ in
+        return renderer.image { context in
+            UIColor.white.setFill()
+            context.cgContext.fill(CGRect(origin: .zero, size: targetSize))
             draw(in: CGRect(origin: .zero, size: targetSize))
         }
     }
